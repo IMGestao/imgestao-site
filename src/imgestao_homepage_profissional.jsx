@@ -383,32 +383,36 @@ export default function IMGestaoHomepage() {
         </section>
       </main>
 
-      <footer className="border-t border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-8 text-sm text-slate-500 md:flex-row md:items-center md:justify-between lg:px-8">
-          <div className="flex items-center gap-4">
-            <img
-              src={logo}
-              alt=""
-              className="h-12 w-auto object-contain"
-            />
-            <div>
-              <div className="mt-1">Estratégia, governança e transformação organizacional.</div>
-            </div>
-          </div>
+      <footer className="mt-16 border-t border-slate-700 pt-6 pb-8">
+  <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-400">
 
-          <div className="flex flex-wrap gap-5">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="transition hover:text-slate-900"
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </footer>
+    {/* Copyright */}
+    <div>
+      © {new Date().getFullYear()} IM Estratégia e Gestão
+    </div>
+
+    {/* LinkedIn */}
+    <a
+      href="https://www.linkedin.com/company/im-gestao"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-2 hover:text-white transition"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path d="M20.447 20.452h-3.554V14.83c0-1.341-.027-3.066-1.868-3.066-1.868 0-2.154 1.459-2.154 2.968v5.72H9.317V9h3.414v1.561h.049c.476-.9 1.637-1.849 3.37-1.849 3.604 0 4.27 2.372 4.27 5.455v6.285zM5.337 7.433a2.063 2.063 0 11.002-4.126 2.063 2.063 0 01-.002 4.126zM6.969 20.452H3.704V9h3.265v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.225.792 24 1.771 24h20.451C23.2 24 24 23.225 24 22.271V1.729C24 .774 23.2 0 22.222 0z"/>
+      </svg>
+
+      LinkedIn
+    </a>
+
+  </div>
+</footer>
     </div>
   );
 }
