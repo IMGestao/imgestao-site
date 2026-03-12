@@ -138,7 +138,7 @@ export default function IMGestaoHomepage() {
               </h1>
 
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                A IM Gestão apoia organizações na construção de modelos mais sólidos de direção, governança e operação, conectando liderança, processos, tecnologia e dados para viabilizar mudanças consistentes.
+                A IM Estratégia e Gestão apoia organizações na construção de modelos mais sólidos de direção, governança e operação, conectando liderança, processos, tecnologia e dados para viabilizar mudanças consistentes.
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -218,7 +218,7 @@ export default function IMGestaoHomepage() {
           <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
             <div>
               <div className="text-sm font-medium uppercase tracking-[0.22em] text-slate-500">
-                Sobre a IM Gestão
+                Sobre a IM Estratégia e Gestão
               </div>
               <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">
                 Uma consultoria orientada por método, profundidade analítica e visão executiva.
@@ -227,7 +227,7 @@ export default function IMGestaoHomepage() {
 
             <div className="space-y-6 text-base leading-8 text-slate-600">
               <p>
-                A IM Gestão foi concebida para apoiar organizações que precisam estruturar melhor sua estratégia, fortalecer sua governança e organizar sua capacidade de execução.
+                A IM Estratégia e Gestão foi concebida para apoiar organizações que precisam estruturar melhor sua estratégia, fortalecer sua governança e organizar sua capacidade de execução.
               </p>
               <p>
                 A atuação combina leitura de contexto, raciocínio estratégico e desenho gerencial para transformar desafios complexos em modelos mais claros de decisão, coordenação e acompanhamento.
@@ -359,7 +359,7 @@ export default function IMGestaoHomepage() {
                     Vamos conversar sobre a evolução estratégica da sua organização.
                   </h2>
                   <p className="mt-5 max-w-2xl text-base leading-8 text-slate-300">
-                    Se sua empresa está revisando sua direção, reorganizando sua gestão ou conduzindo uma transformação relevante, a IM Gestão pode apoiar a estruturação dos próximos passos.
+                    Se sua empresa está revisando sua direção, reorganizando sua gestão ou conduzindo uma transformação relevante, a IM Estratégia e Gestão pode apoiar a estruturação dos próximos passos.
                   </p>
                 </div>
 
