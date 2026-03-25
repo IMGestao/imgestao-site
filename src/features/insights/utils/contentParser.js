@@ -27,11 +27,63 @@
     listaBuffer = [];
   };
 
-  for (const linha of linhas) {
+  const isTableDividerRow = (linha = "") => {
+    const cells = String(linha)
+      .split("|")
+      .map((cell) => cell.trim())
+      .filter((cell, index, array) => {
+        const isEdge = (index === 0 || index === array.length - 1) && cell === "";
+        return !isEdge;
+      });
+
+    if (!cells.length) return false;
+
+    return cells.every((cell) => /^:?-{3,}:?$/.test(cell));
+  };
+
+  const parseTableRow = (linha = "") =>
+    String(linha)
+      .split("|")
+      .map((cell) => cell.trim())
+      .filter((cell, index, array) => {
+        const isEdge = (index === 0 || index === array.length - 1) && cell === "";
+        return !isEdge;
+      });
+
+  for (let i = 0; i < linhas.length; i += 1) {
+    const linha = linhas[i];
+
     if (!linha) {
       flushParagrafos();
       flushLista();
       continue;
+    }
+
+    const proximaLinha = linhas[i + 1] || "";
+    if (linha.includes("|") && isTableDividerRow(proximaLinha)) {
+      flushParagrafos();
+      flushLista();
+
+      const headers = parseTableRow(linha);
+      const rows = [];
+
+      i += 2;
+      while (i < linhas.length && linhas[i].includes("|")) {
+        const row = parseTableRow(linhas[i]);
+        if (row.length > 0) rows.push(row);
+        i += 1;
+      }
+
+      i -= 1;
+
+      if (headers.length && rows.length) {
+        blocos.push({
+          tipo: "tabela",
+          headers,
+          rows,
+        });
+        continue;
+      }
     }
 
     if (linha.startsWith("## ")) {

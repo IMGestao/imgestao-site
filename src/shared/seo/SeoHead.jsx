@@ -44,6 +44,7 @@ export default function SeoHead({ config = {} }) {
     document.title = meta.title;
 
     upsertMeta('meta[name="description"]', { name: "description" }, meta.description);
+    upsertMeta('meta[name="robots"]', { name: "robots" }, meta.robots || "index,follow");
     upsertLink('link[rel="canonical"]', { rel: "canonical" }, canonical);
 
     upsertMeta('meta[property="og:site_name"]', { property: "og:site_name" }, defaultSeo.siteName);

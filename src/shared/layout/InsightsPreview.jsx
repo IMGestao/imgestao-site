@@ -21,7 +21,7 @@ export default function InsightsPreview({ articles = [] }) {
         {articles.map((article, index) => (
           <div
             key={article.slug}
-            className={index === 0 ? "relative rounded-2xl ring-2 ring-slate-900/10" : ""}
+            className={index === 0 ? "relative h-full rounded-2xl ring-2 ring-slate-900/10" : "h-full"}
           >
             {index === 0 && (
               <span className="absolute top-4 left-4 z-10 rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold tracking-[0.14em] text-white uppercase">

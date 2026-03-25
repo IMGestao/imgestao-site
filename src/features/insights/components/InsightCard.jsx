@@ -7,22 +7,24 @@ function InsightCard({ article }) {
   return (
     <Link to={`/insights/${article.slug}`} className="block h-full no-underline">
       <div className="group flex h-full flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
-        <div>
-          {article.data && (
-            <p className="mb-2 text-sm text-gray-400">{formatDate(article.data)}</p>
-          )}
+        <div className="flex h-full flex-col">
+          <div className="min-h-[54px]">
+            {article.data && (
+              <p className="mb-2 text-sm text-gray-400">{formatDate(article.data)}</p>
+            )}
 
-          {article.categoria && (
-            <p className="mb-3 text-xs uppercase tracking-[0.18em] text-slate-400">
-              {article.categoria}
-            </p>
-          )}
+            {article.categoria && (
+              <p className="mb-3 text-xs uppercase tracking-[0.18em] text-slate-400">
+                {article.categoria}
+              </p>
+            )}
+          </div>
 
-          <h2 className="mb-3 text-xl leading-snug font-semibold text-gray-900 transition-colors group-hover:text-blue-600">
+          <h2 className="mb-3 min-h-[84px] text-xl leading-snug font-semibold text-gray-900 transition-colors group-hover:text-blue-600">
             {article.titulo}
           </h2>
 
-          <p className="text-sm leading-relaxed text-gray-600">
+          <p className="min-h-[92px] text-sm leading-relaxed text-gray-600">
             {article.excerpt || article.descricao}
           </p>
         </div>

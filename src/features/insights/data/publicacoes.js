@@ -590,7 +590,7 @@ Definir KPIs não é escolher métricas bonitas para um painel. É estruturar um
 Quando bem definidos, os indicadores conectam direção, execução e resultado. E é justamente essa conexão que transforma dados em gestão de verdade.
   `
 },
-  {
+{
   id: "PUB-005",
   slug: "modelo-de-gestao-empresarial",
   titulo: "Modelo de gestão empresarial: como estruturar para crescer com consistência",
@@ -677,6 +677,154 @@ Na prática, elas:
 Crescimento sustentável não é consequência de esforço isolado. É resultado de um sistema bem estruturado.
 
 Um modelo de gestão bem definido não apenas organiza a empresa — ele cria as condições para que ela evolua com clareza, consistência e escala.
+  `
+},
+{
+  id: "PUB-006",
+  slug: "transformacao-digital-origem-e-significado",
+  titulo: "Transformação Digital: origem, evolução e o real significado nas organizações",
+  descricao:
+    "Entenda como a transformação digital evoluiu de tema tecnológico para um tema estratégico de gestão, operação e competitividade.",
+  data: "2026-03-25",
+  autor: "IM Estratégia e Gestão",
+  tempoLeitura: "9 a 11 min",
+  categoria: "Transformação",
+  palavrasChave: [
+    "transformação digital",
+    "transformação organizacional",
+    "modelo de gestão",
+    "eficiência operacional",
+    "governança e execução"
+  ],
+  destaqueHome: false,
+  conteudo: `
+O termo transformação digital surgiu no ambiente acadêmico e corporativo no início dos anos 2000 para descrever o impacto das tecnologias digitais na forma como as organizações operam, competem e se relacionam com o mercado.
+
+Pesquisas conduzidas por instituições como o MIT mostram que a transformação digital não se trata apenas de tecnologia, mas de mudanças estruturais na forma como as empresas definem estratégia, operam e tomam decisões.
+
+## A evolução histórica do conceito
+
+A transformação digital não surgiu de forma repentina. Ela é resultado de uma evolução de mais de 40 anos na forma como as empresas utilizam tecnologia.
+
+| Período | Foco | Objetivo |
+| --- | --- | --- |
+| 1980 – 1995 | Informatização | Automatizar tarefas operacionais |
+| 1995 – 2005 | Digitalização | Transformar informações físicas em digitais |
+| 2005 – 2015 | Integração de sistemas | Integrar áreas e processos |
+| 2015 – 2020 | Transformação Digital | Mudar a forma de operar e competir |
+| 2020 – atual | Transformação Organizacional | Tornar empresas orientadas a dados, eficiência e novos modelos de negócio |
+
+Ou seja, o conceito evoluiu de tecnologia para operação, e de operação para estratégia.
+
+## O impacto econômico da transformação digital
+
+Estudos acadêmicos e institucionais mostram a dimensão desse impacto:
+
+- Estima-se que a transformação digital tenha gerado mais de US$ 100 trilhões em valor econômico global entre 2020 e 2025.
+- Mais de 70% das empresas no mundo afirmam estar passando por algum tipo de iniciativa de transformação digital.
+- Pesquisas mostram que cerca de 70% dos projetos de transformação falham, não por causa da tecnologia, mas por problemas de gestão, cultura, processos e estratégia.
+- Empresas orientadas por dados têm, em média, 5% a 6% mais produtividade e 4% a 5% mais lucratividade do que empresas não orientadas por dados.
+- Organizações com alto nível de maturidade digital apresentam até 20% maior eficiência operacional.
+
+Esses números mostram que o impacto não é tecnológico. Ele é econômico e competitivo.
+
+## O que é transformação digital, de fato
+
+Do ponto de vista acadêmico e de gestão, transformação digital pode ser definida como:
+
+O uso de tecnologias digitais para redesenhar modelos de negócio, processos, estrutura organizacional e tomada de decisão, com o objetivo de aumentar competitividade, eficiência e capacidade de adaptação ao mercado.
+
+Perceba que a tecnologia aparece como meio, não como fim.
+
+A transformação digital normalmente envolve:
+
+- Integração de sistemas (ERP, CRM e plataformas)
+- Automação de processos
+- Uso de dados para tomada de decisão
+- Redesenho de processos
+- Novos canais de vendas e relacionamento
+- Novos modelos de negócio
+- Mudanças na estrutura organizacional
+- Implantação de indicadores e gestão por desempenho
+- Governança e gestão da execução
+
+Ou seja, trata-se muito mais de gestão, estratégia e operação do que de tecnologia.
+
+## Por que muitas empresas erram ao falar de transformação digital
+
+Muitas organizações associam transformação digital a:
+
+- Implantar um sistema
+- Comprar tecnologia
+- Implantar ERP
+- Implantar BI
+- Implantar CRM
+- Usar inteligência artificial
+
+Mas tecnologia, sozinha, não transforma uma empresa.
+
+Sem:
+
+- Estratégia clara
+- Modelo de gestão
+- Processos definidos
+- Governança
+- Indicadores
+- Gestão da execução
+
+A tecnologia apenas digitaliza problemas que já existiam.
+
+Por isso, estudos mostram que a maior parte das iniciativas falha não por erro tecnológico, mas por falta de definição de:
+
+- Modelo operacional
+- Modelo de gestão
+- Papéis e responsabilidades
+- Processos
+- Indicadores
+- Prioridades estratégicas
+
+## A evolução do entendimento: da tecnologia para a estratégia
+
+Hoje, o entendimento mais moderno sobre transformação digital é:
+
+| Visão antiga | Visão atual |
+| --- | --- |
+| Projeto de TI | Projeto estratégico |
+| Implantar sistemas | Redesenhar a empresa |
+| Automatizar | Tornar eficiente |
+| Digitalizar | Integrar |
+| Tecnologia | Modelo operacional |
+| Ferramentas | Gestão e decisão |
+| Sistema | Estratégia + execução |
+
+A conclusão a que o mercado e a academia chegaram é simples:
+
+A tecnologia não transforma empresas. A tecnologia viabiliza mudanças estratégicas e operacionais que as empresas precisam fazer para continuar competitivas.
+
+## Conclusão
+
+A chamada transformação digital é, na realidade, um movimento de adaptação das empresas a um mercado mais rápido, mais integrado, mais orientado por dados e mais competitivo.
+
+Nesse contexto, a tecnologia deixa de ser apenas uma ferramenta operacional e passa a ser um meio para viabilizar objetivos estratégicos, como:
+
+- Crescimento
+- Eficiência operacional
+- Escalabilidade
+- Integração da informação
+- Melhoria da tomada de decisão
+- Criação de novos modelos de negócio
+- Aumento de competitividade
+
+Por isso, cada vez mais, o tema transformação digital tem sido tratado como:
+
+- Transformação empresarial
+- Transformação organizacional
+- Transformação do modelo de gestão
+- Transformação operacional
+
+Porque, no final, não se trata de tecnologia.
+
+Trata-se de como a empresa se organiza, toma decisões, executa sua estratégia e se adapta ao mercado. E a tecnologia é apenas o meio que permite que essa transformação aconteça.
   `
 }
 ];

@@ -1,16 +1,13 @@
 ﻿const SITE_NAME = "IM Estratégia e Gestão";
 const DEFAULT_BASE_URL = "https://www.imgestao.com.br";
+const RAW_SITE_URL = import.meta.env.VITE_SITE_URL || DEFAULT_BASE_URL;
 
 function getBaseUrl() {
-  if (typeof window !== "undefined" && window.location?.origin) {
-    return window.location.origin;
-  }
-
-  return DEFAULT_BASE_URL;
+  return String(RAW_SITE_URL).replace(/\/+$/, "");
 }
 
 export function resolveCanonical(pathname = "/") {
-  return new URL(pathname, getBaseUrl()).toString();
+  return new URL(pathname, `${getBaseUrl()}/`).toString();
 }
 
 export const defaultSeo = {
@@ -19,6 +16,7 @@ export const defaultSeo = {
   description:
     "Consultoria em estratégia, governança e transformação para empresas que precisam evoluir com clareza e execução.",
   image: "/im-light-512.png",
+  robots: "index,follow",
 };
 
 export function getHomeSeo() {

@@ -15,57 +15,10 @@ import {
 import SiteHeader from "../../../shared/layout/SiteHeader";
 import SiteFooter from "../../../shared/layout/SiteFooter";
 import SeoHead from "../../../shared/seo/SeoHead";
-import { getArticleSeo } from "../../../shared/seo/seoConfig";
+import { getArticleSeo, resolveCanonical } from "../../../shared/seo/seoConfig";
 
 function EditorialDivider() {
   return <div className="my-12 h-px w-full bg-[linear-gradient(90deg,transparent,#d1d5db,transparent)]" />;
-}
-
-function ConceptChart() {
-  return (
-    <section className="rounded-3xl border border-slate-200 bg-slate-50 p-6 md:p-8">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-        Gráfico conceitual
-      </p>
-      <div className="mt-5 space-y-4">
-        {[
-          { label: "Direção estratégica", width: "w-[92%]" },
-          { label: "Disciplina de execução", width: "w-[78%]" },
-          { label: "Governança e gestão", width: "w-[84%]" },
-          { label: "Aprendizado contínuo", width: "w-[69%]" },
-        ].map((item) => (
-          <div key={item.label}>
-            <div className="mb-2 text-xs font-medium text-slate-600">{item.label}</div>
-            <div className="h-2.5 rounded-full bg-slate-200">
-              <div className={`h-2.5 rounded-full bg-slate-900 ${item.width}`} />
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function ConceptDiagram() {
-  return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-6 md:p-8">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-        Diagrama de fluxo
-      </p>
-      <div className="mt-6 grid gap-3 md:grid-cols-4">
-        {["Diagnóstico", "Direcionamento", "Estruturação", "Execução"].map((item, index) => (
-          <div key={item} className="relative rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center">
-            <span className="text-sm font-medium text-slate-700">{item}</span>
-            {index < 3 && (
-              <span className="absolute -right-2 top-1/2 hidden -translate-y-1/2 text-slate-400 md:block">
-                →
-              </span>
-            )}
-          </div>
-        ))}
-      </div>
-    </section>
-  );
 }
 
 function QuoteBlock({ quote }) {
@@ -116,6 +69,50 @@ function BannerAbstrato({ artigo }) {
   );
 }
 
+function EditorialTable({ headers = [], rows = [] }) {
+  if (!headers.length || !rows.length) return null;
+
+  return (
+    <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+      <table className="min-w-full border-collapse text-left">
+        <colgroup>
+          <col className="w-[22%]" />
+          <col className="w-[30%]" />
+          <col className="w-[48%]" />
+        </colgroup>
+        <thead>
+          <tr className="bg-slate-50">
+            {headers.map((header) => (
+              <th
+                key={header}
+                className="border-b border-slate-200 px-4 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-slate-600"
+              >
+                {header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, rowIndex) => (
+            <tr key={`row-${rowIndex}`} className="align-top">
+              {headers.map((_, colIndex) => (
+                <td
+                  key={`cell-${rowIndex}-${colIndex}`}
+                  className={`border-b border-slate-100 px-4 py-3 text-[16px] leading-7 text-slate-700 ${
+                    colIndex === 0 ? "whitespace-nowrap" : ""
+                  }`}
+                >
+                  {row[colIndex] || "—"}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default function ArticlePage() {
   const { slug } = useParams();
   const artigosOrdenados = useMemo(() => getSortedArticles(publicacoes), []);
@@ -139,6 +136,16 @@ export default function ArticlePage() {
 
     return (
       <div className="min-h-screen bg-[#f5f7fa] text-slate-900 antialiased">
+        <SeoHead
+          config={{
+            title: "Artigo não encontrado | IM Estratégia e Gestão",
+            description:
+              "O artigo solicitado não está disponível. Explore os insights publicados pela IM Estratégia e Gestão.",
+            canonical: resolveCanonical("/insights"),
+            type: "website",
+            robots: "noindex,follow",
+          }}
+        />
         <SiteHeader navItems={navItems} />
 
         <main className="mx-auto max-w-7xl px-6 py-14 lg:px-8 lg:py-20">
@@ -249,11 +256,6 @@ export default function ArticlePage() {
               </section>
             )}
 
-            <ConceptChart />
-            <div className="my-12">
-              <ConceptDiagram />
-            </div>
-
             <div className="rounded-[2rem] border border-slate-200 bg-white px-8 py-12 shadow-sm md:px-14 md:py-16">
               {blocos.length > 0 && blocos[0].tipo === "paragrafo" && (
                 <p className="border-l-2 border-slate-900 pl-5 font-serif text-2xl leading-10 text-slate-800 md:text-[30px] md:leading-[1.6]">
@@ -299,6 +301,16 @@ export default function ArticlePage() {
                           </li>
                         ))}
                       </ul>
+                    );
+                  }
+
+                  if (bloco.tipo === "tabela") {
+                    return (
+                      <EditorialTable
+                        key={`tabela-${index}`}
+                        headers={bloco.headers}
+                        rows={bloco.rows}
+                      />
                     );
                   }
 
