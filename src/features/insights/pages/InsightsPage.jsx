@@ -57,8 +57,8 @@ export default function InsightsPage() {
 
       <main>
         <section className="relative overflow-hidden border-b border-slate-200/70 bg-[radial-gradient(circle_at_top_left,_rgba(15,23,42,0.05),_transparent_30%),radial-gradient(circle_at_right,_rgba(37,99,235,0.07),_transparent_28%),linear-gradient(180deg,#f8fafc_0%,#f1f5f9_100%)]">
-          <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-24">
-            <div className="mb-6">
+          <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-14">
+            <div className="mb-3">
               <nav className="text-sm text-slate-500">
                 <Link to="/" className="transition hover:text-slate-900">
                   Home
@@ -71,11 +71,11 @@ export default function InsightsPage() {
             <div className="max-w-4xl">
               <div className="text-sm font-medium uppercase tracking-[0.24em] text-slate-500">Insights</div>
 
-              <h1 className="mt-5 max-w-4xl text-4xl leading-tight font-semibold tracking-tight text-slate-950 md:text-5xl lg:text-6xl">
+              <h1 className="mt-3 max-w-4xl text-4xl leading-tight font-semibold tracking-tight text-slate-950 md:text-5xl lg:text-6xl">
                 Análises e reflexões sobre estratégia, gestão e transformação
               </h1>
 
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+              <p className="mt-3 max-w-3xl text-lg leading-7 text-slate-600">
                 Conteúdos desenvolvidos para lideranças e organizações que precisam estruturar melhor sua direção, fortalecer sua gestão e ampliar sua capacidade de execução.
               </p>
             </div>
