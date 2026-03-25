@@ -296,6 +296,229 @@ img {
   grid-template-columns: 1fr;
 }
 
+.im-hero-heading-stage {
+  position: relative;
+  isolation: isolate;
+  padding: 20px 0 10px;
+}
+
+.im-hero-heading-bg {
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  top: 0;
+  bottom: 0;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 18% 34%, rgba(147, 197, 253, 0.28), transparent 28%),
+    radial-gradient(circle at 82% 28%, rgba(191, 219, 254, 0.32), transparent 26%),
+    linear-gradient(120deg, rgba(219, 234, 254, 0.28), rgba(239, 246, 255, 0.14));
+  filter: blur(0.4px);
+  opacity: 0.9;
+  animation: imHeroBgFlow 9s ease-in-out infinite;
+}
+
+@keyframes imHeroBgFlow {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(8px, -4px, 0) scale(1.02);
+  }
+}
+
+.im-hero-banner {
+  position: relative;
+  overflow: hidden;
+  min-height: 240px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 16% 22%, rgba(255, 255, 255, 0.9), transparent 28%),
+    radial-gradient(circle at 88% 20%, rgba(255, 255, 255, 0.56), transparent 26%),
+    linear-gradient(130deg, #dfe8f7 0%, #ebf2ff 34%, #dce7f8 64%, #f4f8ff 100%);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.im-hero-lottie {
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+}
+
+.im-hero-banner__glow {
+  position: absolute;
+  inset: -25% -20%;
+  background: radial-gradient(circle, rgba(30, 64, 175, 0.18), transparent 56%);
+  animation: imBannerGlow 9s ease-in-out infinite;
+}
+
+.im-hero-banner__blob {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(0.2px);
+  opacity: 0.55;
+}
+
+.im-hero-banner__blob--one {
+  width: 180px;
+  height: 180px;
+  top: -30px;
+  left: 12%;
+  background: radial-gradient(circle, rgba(147, 197, 253, 0.65), rgba(147, 197, 253, 0) 72%);
+  animation: imBannerBlobOne 10s ease-in-out infinite;
+}
+
+.im-hero-banner__blob--two {
+  width: 220px;
+  height: 220px;
+  bottom: -80px;
+  right: 16%;
+  background: radial-gradient(circle, rgba(191, 219, 254, 0.6), rgba(191, 219, 254, 0) 70%);
+  animation: imBannerBlobTwo 11s ease-in-out infinite;
+}
+
+.im-hero-banner__blob--three {
+  width: 140px;
+  height: 140px;
+  top: 30%;
+  right: 36%;
+  background: radial-gradient(circle, rgba(165, 180, 252, 0.35), rgba(165, 180, 252, 0) 72%);
+  animation: imBannerBlobThree 9.5s ease-in-out infinite;
+}
+
+.im-hero-banner__line {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.15), rgba(15, 23, 42, 0.36));
+  transform-origin: left center;
+}
+
+.im-hero-banner__line--one {
+  top: 36%;
+  animation: imBannerLine 6s ease-in-out infinite;
+}
+
+.im-hero-banner__line--two {
+  top: 52%;
+  animation: imBannerLine 6s ease-in-out infinite 0.7s;
+}
+
+.im-hero-banner__line--three {
+  top: 68%;
+  animation: imBannerLine 6s ease-in-out infinite 1.2s;
+}
+
+.im-hero-banner__dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #0f172a;
+  box-shadow: 0 0 0 6px rgba(15, 23, 42, 0.08);
+}
+
+.im-hero-banner__dot--one {
+  left: 24%;
+  top: calc(36% - 5px);
+  animation: imBannerDot 4.8s ease-in-out infinite;
+}
+
+.im-hero-banner__dot--two {
+  left: 58%;
+  top: calc(52% - 5px);
+  animation: imBannerDot 5.4s ease-in-out infinite 0.6s;
+}
+
+.im-hero-banner__dot--three {
+  left: 78%;
+  top: calc(68% - 5px);
+  animation: imBannerDot 5.8s ease-in-out infinite 1s;
+}
+
+.im-hero-banner__grain {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px),
+    radial-gradient(circle at 60% 52%, rgba(255, 255, 255, 0.14) 0 1px, transparent 1px),
+    radial-gradient(circle at 84% 28%, rgba(255, 255, 255, 0.16) 0 1px, transparent 1px);
+  background-size: 120px 120px, 160px 160px, 140px 140px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+@keyframes imBannerGlow {
+  0%, 100% {
+    transform: translate3d(-2%, 0, 0) scale(1);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translate3d(2%, -2%, 0) scale(1.06);
+    opacity: 1;
+  }
+}
+
+@keyframes imBannerLine {
+  0%, 100% {
+    transform: scaleX(0.9);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes imBannerDot {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes imBannerBlobOne {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(22px, 10px, 0) scale(1.05);
+  }
+}
+
+@keyframes imBannerBlobTwo {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-18px, -14px, 0) scale(1.07);
+  }
+}
+
+@keyframes imBannerBlobThree {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(10px, -8px, 0) scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .im-hero-heading-bg,
+  .im-hero-banner__glow,
+  .im-hero-banner__blob,
+  .im-hero-banner__line,
+  .im-hero-banner__dot {
+    animation: none !important;
+  }
+}
+
 @media (min-width: 768px) {
   .im-editorial-shell {
     padding-left: 32px;

@@ -1,15 +1,14 @@
-import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Insights from "./insights/pages/Insights";
-import Article from "./insights/pages/Article";
-import { Link } from "react-router-dom";
+﻿import { Route, Routes } from "react-router-dom";
+import HomePage from "./features/insights/pages/HomePage";
+import InsightsPage from "./features/insights/pages/InsightsPage";
+import ArticlePage from "./features/insights/pages/ArticlePage";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/insights" element={<Insights />} />
-      <Route path="/insights/:slug" element={<Article />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/insights" element={<InsightsPage />} />
+      <Route path="/insights/:slug" element={<ArticlePage />} />
     </Routes>
   );
 }

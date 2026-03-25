@@ -1,19 +1,6 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./imgestao_homepage_profissional";
-import GestaoEstrategica from "./blog/posts/gestao-estrategica";
-
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route
-          path="/blog/gestao-estrategica"
-          element={<GestaoEstrategica />}
-        />
-      </Routes>
-    </BrowserRouter>
-  );
-}
-
-export default App;
+﻿/**
+ * LEGACY WRAPPER
+ * Arquivo movido para src/legacy/blog/posts/App.jsx.
+ * Mantenha este wrapper apenas para compatibilidade temporaria.
+ */
+export { default } from "../../../legacy/blog/posts/App";
