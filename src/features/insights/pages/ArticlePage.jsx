@@ -9,7 +9,6 @@ import {
   getSortedArticles,
 } from "../utils/articles";
 import {
-  extractTakeaways,
   headingToAnchor,
   parseConteudoToBlocks,
 } from "../utils/contentParser";
@@ -18,29 +17,8 @@ import SiteFooter from "../../../shared/layout/SiteFooter";
 import SeoHead from "../../../shared/seo/SeoHead";
 import { getArticleSeo, resolveCanonical } from "../../../shared/seo/seoConfig";
 
-function EditorialDivider() {
-  return <div className="my-12 h-px w-full bg-[linear-gradient(90deg,transparent,#d1d5db,transparent)]" />;
-}
-
-function QuoteBlock({ quote }) {
-  if (!quote) return null;
-
-  return (
-    <blockquote className="rounded-3xl border border-slate-200 bg-white px-6 py-7 md:px-8">
-      <p className="font-serif text-2xl leading-relaxed text-slate-900 md:text-3xl">“{quote}”</p>
-    </blockquote>
-  );
-}
-
-function pickQuoteFromBlocks(blocos = []) {
-  const paragraph = blocos.find(
-    (bloco) => bloco.tipo === "paragrafo" && String(bloco.texto || "").length > 90
-  );
-
-  if (!paragraph) return "";
-
-  const sentence = String(paragraph.texto).split(". ").slice(0, 1).join(". ").trim();
-  return sentence.replace(/\.+$/, "");
+function InlineText({ text = "" }) {
+  return String(text).split(/(\*\*[^*]+\*\*)/g).map((part, i) => part.startsWith("**") && part.endsWith("**") ? <strong key={i}>{part.slice(2, -2)}</strong> : part);
 }
 
 function BannerAbstrato({ artigo }) {
@@ -53,19 +31,16 @@ function EditorialTable({ headers = [], rows = [] }) {
   return (
     <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
       <table className="min-w-full border-collapse text-left">
-        <colgroup>
-          <col className="w-[22%]" />
-          <col className="w-[30%]" />
-          <col className="w-[48%]" />
-        </colgroup>
+  
         <thead>
           <tr className="bg-slate-50">
             {headers.map((header) => (
               <th
                 key={header}
+                scope="col"
                 className="border-b border-slate-200 px-4 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-slate-600"
               >
-                {header}
+                <InlineText text={header} />
               </th>
             ))}
           </tr>
@@ -76,11 +51,9 @@ function EditorialTable({ headers = [], rows = [] }) {
               {headers.map((_, colIndex) => (
                 <td
                   key={`cell-${rowIndex}-${colIndex}`}
-                  className={`border-b border-slate-100 px-4 py-3 text-[16px] leading-7 text-slate-700 ${
-                    colIndex === 0 ? "whitespace-nowrap" : ""
-                  }`}
+                  className="border-b border-slate-100 px-4 py-3 text-base leading-7 text-slate-700"
                 >
-                  {row[colIndex] || "—"}
+                  <InlineText text={row[colIndex] || "—"} />
                 </td>
               ))}
             </tr>
@@ -97,8 +70,8 @@ export default function ArticlePage() {
   const artigo = artigosOrdenados.find((item) => item.slug === slug);
 
   const blocos = useMemo(() => parseConteudoToBlocks(artigo?.conteudo || ""), [artigo]);
-  const takeaways = useMemo(() => extractTakeaways(blocos), [blocos]);
-  const quote = useMemo(() => pickQuoteFromBlocks(blocos), [blocos]);
+  const takeaways = artigo?.resumoExecutivo || [];
+  const headings = blocos.filter(bloco => bloco.tipo === "h2");
   const relacionados = useMemo(
     () => getRelatedArticles(artigosOrdenados, artigo, 3),
     [artigosOrdenados, artigo]
@@ -175,7 +148,7 @@ export default function ArticlePage() {
       <main>
         <section className="rd-article-banner">
           <div className="mx-auto max-w-7xl px-6 py-14 lg:px-8 lg:py-18">
-            <div className="mb-8 text-sm text-slate-300">
+            <nav aria-label="Caminho de navegação" className="mb-8 text-sm text-slate-300">
               <Link to="/" className="transition hover:text-white">
                 Home
               </Link>
@@ -185,7 +158,7 @@ export default function ArticlePage() {
               </Link>
               <span className="mx-2">/</span>
               <span className="text-slate-200">{artigo.categoria}</span>
-            </div>
+            </nav>
 
             <div className="max-w-5xl">
               <h1 className="rd-article-title">
@@ -216,95 +189,44 @@ export default function ArticlePage() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-24">
-          <article className="mx-auto min-w-0 max-w-3xl">
-            <QuoteBlock quote={quote} />
-            <EditorialDivider />
-
-            {takeaways.length > 0 && (
-              <section className="mb-12 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm md:p-10">
-                <div className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">Destaques</div>
-                <ul className="space-y-4">
-                  {takeaways.map((item, index) => (
-                    <li key={`${item}-${index}`} className="flex gap-4 text-base leading-8 text-slate-700">
-                      <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-blue-600" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </section>
+        <section className="rd-reading-shell">
+          <div className="rd-reading-layout">
+            {headings.length > 0 && (
+              <aside className="rd-reading-aside">
+                <nav aria-label="Neste artigo">
+                  <h2>Neste artigo</h2>
+                  <ul>{headings.map(bloco => <li key={bloco.texto}><a href={`#${headingToAnchor(bloco.texto)}`}>{bloco.texto}</a></li>)}</ul>
+                </nav>
+              </aside>
             )}
-
-            <div className="rd-article-body">
-              {blocos.length > 0 && blocos[0].tipo === "paragrafo" && (
-                <p className="border-l-2 border-slate-900 pl-5 font-serif text-2xl leading-10 text-slate-800 md:text-[30px] md:leading-[1.6]">
-                  {blocos[0].texto}
-                </p>
+            <article className="rd-reading">
+              {takeaways.length > 0 && (
+                <section className="rd-summary" aria-labelledby="resumo-executivo">
+                  <h2 id="resumo-executivo">Em resumo</h2>
+                  <ul>{takeaways.map(item => <li key={item}><InlineText text={item} /></li>)}</ul>
+                </section>
               )}
-
-              <div className="mt-12 space-y-10 text-[18px] leading-9 text-slate-700">
-                {blocos.slice(blocos[0]?.tipo === "paragrafo" ? 1 : 0).map((bloco, index) => {
-                  if (bloco.tipo === "h2") {
-                    return (
-                      <section
-                        key={`${bloco.texto}-${index}`}
-                        id={headingToAnchor(bloco.texto)}
-                        className="pt-6"
-                      >
-                        <EditorialDivider />
-                        <h2 className="font-serif text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-                          {bloco.texto}
-                        </h2>
-                      </section>
-                    );
-                  }
-
-                  if (bloco.tipo === "h3") {
-                    return (
-                      <h3
-                        key={`${bloco.texto}-${index}`}
-                        className="pt-4 text-2xl font-semibold tracking-tight text-slate-900"
-                      >
-                        {bloco.texto}
-                      </h3>
-                    );
-                  }
-
-                  if (bloco.tipo === "lista") {
-                    return (
-                      <ul key={`lista-${index}`} className="space-y-5 rounded-2xl border border-slate-200 bg-slate-50 p-6">
-                        {bloco.itens.map((item, itemIndex) => (
-                          <li key={`${item}-${itemIndex}`} className="flex gap-4 text-[17px] leading-8 text-slate-700">
-                            <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-slate-900" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    );
-                  }
-
-                  if (bloco.tipo === "tabela") {
-                    return (
-                      <EditorialTable
-                        key={`tabela-${index}`}
-                        headers={bloco.headers}
-                        rows={bloco.rows}
-                      />
-                    );
-                  }
-
-                  return (
-                    <p key={`${bloco.texto}-${index}`} className="text-[18px] leading-9 text-slate-700">
-                      {bloco.texto}
-                    </p>
-                  );
+              <div className="rd-reading-body">
+                {blocos.map((bloco, index) => {
+                  if (bloco.tipo === "h2") return <h2 key={index} id={headingToAnchor(bloco.texto)}><InlineText text={bloco.texto} /></h2>;
+                  if (bloco.tipo === "h3") return <h3 key={index}><InlineText text={bloco.texto} /></h3>;
+                  if (bloco.tipo === "lista") return <ul key={index}>{bloco.itens.map((item,i) => <li key={i}><InlineText text={item} /></li>)}</ul>;
+                  if (bloco.tipo === "tabela") return <EditorialTable key={index} headers={bloco.headers} rows={bloco.rows} />;
+                  return <p key={index} className={index === 0 ? "rd-reading-intro" : undefined}><InlineText text={bloco.texto} /></p>;
                 })}
               </div>
-            </div>
-          </article>
+              {artigo.referencias?.length > 0 && (
+                <section className="rd-references" aria-labelledby="referencias">
+                  <h2 id="referencias">Referências e leitura complementar</h2>
+                  <ul>{artigo.referencias.map(ref => <li key={ref.titulo}>{ref.url ? <a href={ref.url}>{ref.titulo}</a> : ref.titulo}</li>)}</ul>
+                </section>
+              )}
+              <div className="rd-reading-end"><Link to="/insights" className="rd-text-link">Explorar outros insights</Link><a href="/#contato" className="rd-button">Fale conosco</a></div>
+            </article>
+          </div>
 
           {relacionados.length > 0 && (
-            <section className="mt-12">
+            <section className="mt-20">
               <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-2xl font-semibold tracking-tight text-slate-950">Artigos relacionados</h2>
                 <Link to="/insights" className="text-sm font-medium text-blue-700 transition hover:text-blue-900">
