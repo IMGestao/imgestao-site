@@ -589,7 +589,9 @@ Escolha um problema relevante e formule uma hipótese de melhoria: qual processo
       "empresarial"
     ],
     "destaqueHome": false,
-    "cover": "/insights/fotos/riscos-resiliencia-empresarial.webp",
+    "cover": "/insights/fotos/riscos-resiliencia-empresarial-v2.webp",
+    "coverPosition": "center 92%",
+    "coverAlt": "Mesa executiva com mapa-múndi, matriz de probabilidade e impacto, cenários de risco e plano de mitigação",
     "resumoExecutivo": [
       "Mapeie riscos e dependências relevantes para o negócio.",
       "Defina cenários e gatilhos de resposta.",
