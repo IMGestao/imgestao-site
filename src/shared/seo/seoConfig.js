@@ -1,14 +1,8 @@
-﻿const SITE_NAME = "IM Estratégia e Gestão";
-const DEFAULT_BASE_URL = "https://www.imgestao.com.br";
-const RAW_SITE_URL = import.meta.env.VITE_SITE_URL || DEFAULT_BASE_URL;
-
-function getBaseUrl() {
-  return String(RAW_SITE_URL).replace(/\/+$/, "");
-}
-
-export function resolveCanonical(pathname = "/") {
-  return new URL(pathname, `${getBaseUrl()}/`).toString();
-}
+import { SITE_NAME, resolveCanonical } from "./siteConfig.js";
+import { getArticleCover } from "../../features/insights/utils/articleCover.js";
+export { resolveCanonical };
+const organizationId = resolveCanonical("/#organization");
+const websiteId = resolveCanonical("/#website");
 
 export const defaultSeo = {
   siteName: SITE_NAME,
@@ -31,6 +25,7 @@ export function getHomeSeo() {
       {
         "@context": "https://schema.org",
         "@type": "Organization",
+        "@id": organizationId,
         name: defaultSeo.siteName,
         url: canonical,
         logo: resolveCanonical("/im-light-512.png"),
@@ -38,6 +33,8 @@ export function getHomeSeo() {
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
+        "@id": websiteId,
+        publisher: { "@id": organizationId },
         name: defaultSeo.siteName,
         url: canonical,
       },
@@ -90,7 +87,7 @@ export function getArticleSeo(article) {
     canonical,
     type: "article",
     robots: article.edicaoRetroativa && !article.dataPublicacao ? "noindex,nofollow" : "index,follow",
-    image: article.cover || defaultSeo.image,
+    image: getArticleCover(article) || defaultSeo.image,
     publishedTime,
     modifiedTime,
     jsonLd: [
@@ -121,14 +118,17 @@ export function getArticleSeo(article) {
       {
         "@context": "https://schema.org",
         "@type": "Article",
+        "@id": `${canonical}#article`,
         headline: article.titulo,
         description: article.excerpt || article.descricao,
         author: {
           "@type": "Organization",
+          "@id": organizationId,
           name: article.autor || defaultSeo.siteName,
         },
         publisher: {
           "@type": "Organization",
+          "@id": organizationId,
           name: defaultSeo.siteName,
           logo: {
             "@type": "ImageObject",
@@ -137,10 +137,14 @@ export function getArticleSeo(article) {
         },
         ...(publishedTime ? { datePublished: publishedTime, dateModified: modifiedTime } : {}),
         mainEntityOfPage: canonical,
-        image: resolveCanonical(article.cover || defaultSeo.image),
+        image: resolveCanonical(getArticleCover(article) || defaultSeo.image),
         keywords: (article.palavrasChave || []).join(", "),
         articleSection: article.categoria || "Insights",
       },
     ],
   };
+}
+
+export function getNotFoundSeo() {
+  return { ...defaultSeo, title: "Página não encontrada | IM Estratégia e Gestão", description: "O conteúdo solicitado não está disponível.", canonical: resolveCanonical("/insights"), robots: "noindex,follow", type: "website", jsonLd: [] };
 }

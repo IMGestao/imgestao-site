@@ -15,14 +15,14 @@ import {
 import SiteHeader from "../../../shared/layout/SiteHeader";
 import SiteFooter from "../../../shared/layout/SiteFooter";
 import SeoHead from "../../../shared/seo/SeoHead";
-import { getArticleSeo, resolveCanonical } from "../../../shared/seo/seoConfig";
+import { getArticleSeo, getNotFoundSeo } from "../../../shared/seo/seoConfig";
 
 function InlineText({ text = "" }) {
   return String(text).split(/(\*\*[^*]+\*\*)/g).map((part, i) => part.startsWith("**") && part.endsWith("**") ? <strong key={i}>{part.slice(2, -2)}</strong> : part);
 }
 
 function BannerAbstrato({ artigo }) {
-  return <div className="rd-article-visual"><EditorialVisual article={artigo} /></div>;
+  return <div className="rd-article-visual"><EditorialVisual article={artigo} priority /></div>;
 }
 
 function EditorialTable({ headers = [], rows = [] }) {
@@ -88,14 +88,7 @@ export default function ArticlePage() {
     return (
       <div className="min-h-screen bg-[#f5f7fa] text-slate-900 antialiased">
         <SeoHead
-          config={{
-            title: "Artigo não encontrado | IM Estratégia e Gestão",
-            description:
-              "O artigo solicitado não está disponível. Explore os insights publicados pela IM Estratégia e Gestão.",
-            canonical: resolveCanonical("/insights"),
-            type: "website",
-            robots: "noindex,follow",
-          }}
+          config={getNotFoundSeo()}
         />
         <SiteHeader navItems={navItems} />
 
