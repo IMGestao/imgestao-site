@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import InsightCard from "../components/InsightCard";
 import EditorialVisual from "../components/EditorialVisual";
 import { publicacoes } from "../data/publicacoes";
+import { getArticleTheme, themePath } from "../data/themes.js";
 import {
   formatDate,
   getRelatedArticles,
@@ -68,14 +69,12 @@ export default function ArticlePage() {
   const { slug } = useParams();
   const artigosOrdenados = useMemo(() => getSortedArticles(publicacoes), []);
   const artigo = artigosOrdenados.find((item) => item.slug === slug);
+  const theme = getArticleTheme(artigo);
 
-  const blocos = useMemo(() => parseConteudoToBlocks(artigo?.conteudo || ""), [artigo]);
+  const blocos = parseConteudoToBlocks(artigo?.conteudo || "");
   const takeaways = artigo?.resumoExecutivo || [];
   const headings = blocos.filter(bloco => bloco.tipo === "h2");
-  const relacionados = useMemo(
-    () => getRelatedArticles(artigosOrdenados, artigo, 3),
-    [artigosOrdenados, artigo]
-  );
+  const relacionados = getRelatedArticles(artigosOrdenados, artigo, 3);
 
   const navItems = [
     { label: "Home", href: "/", isRoute: true },
@@ -150,7 +149,8 @@ export default function ArticlePage() {
                 Insights
               </Link>
               <span className="mx-2">/</span>
-              <span className="text-slate-200">{artigo.categoria}</span>
+              {theme ? <><Link to={themePath(theme)} className="transition hover:text-white">{theme.title}</Link><span className="mx-2" aria-hidden="true">/</span></> : null}
+              <span className="text-slate-200" aria-current="page">Artigo</span>
             </nav>
 
             <div className="max-w-5xl">
@@ -209,6 +209,7 @@ export default function ArticlePage() {
                   return <p key={index} className={index === 0 ? "rd-reading-intro" : undefined}><InlineText text={bloco.texto} /></p>;
                 })}
               </div>
+              {theme && <section className="my-8 border-l-4 border-[#174b78] bg-slate-50 p-5" aria-labelledby="theme-context"><h2 id="theme-context" className="text-xl font-semibold text-[#0b2038]">Explore este tema</h2><p className="mt-2 text-base leading-7 text-slate-700">{theme.description}</p><Link to={themePath(theme)} className="rd-text-link mt-3 inline-block">{theme.title}</Link></section>}
               {artigo.referencias?.length > 0 && (
                 <section className="rd-references" aria-labelledby="referencias">
                   <h2 id="referencias">Referências e leitura complementar</h2>

@@ -2,6 +2,7 @@
 import HomePage from "./features/insights/pages/HomePage";
 import InsightsPage from "./features/insights/pages/InsightsPage";
 import ArticlePage from "./features/insights/pages/ArticlePage";
+import ThemePage from "./features/insights/pages/ThemePage";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/insights" element={<InsightsPage />} />
       <Route path="/insights/:slug" element={<ArticlePage />} />
+      <Route path="/temas/:themeSlug" element={<ThemePage />} />
       <Route path="*" element={<ArticlePage />} />
     </Routes>
   );

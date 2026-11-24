@@ -1,4 +1,5 @@
-﻿const FALLBACK_EXCERPT_SIZE = 160;
+﻿import { getArticleTheme, isPublished } from "../data/themes.js";
+const FALLBACK_EXCERPT_SIZE = 160;
 
 function normalizeString(value = "") {
   return String(value)
@@ -129,8 +130,11 @@ export function getRelatedArticles(articles = [], currentArticle, limit = 3) {
   );
 
   const candidates = getSortedArticles(articles)
-    .filter((article) => article.slug !== currentArticle.slug)
+    .filter((article) => article.slug !== currentArticle.slug && isPublished(article))
     .map((article) => {
+      const currentTheme = getArticleTheme(currentArticle);
+      const candidateTheme = getArticleTheme(article);
+      const themeScore = currentTheme && currentTheme.slug === candidateTheme?.slug ? 2 : currentTheme?.related.includes(candidateTheme?.slug) ? 1 : 0;
       const sameCategory = article.categoria === currentArticle.categoria;
       const keywordScore = (article.palavrasChave || []).reduce(
         (acc, keyword) =>
@@ -140,11 +144,13 @@ export function getRelatedArticles(articles = [], currentArticle, limit = 3) {
 
       return {
         article,
+        themeScore,
         sameCategory,
         keywordScore,
       };
     })
     .sort((a, b) => {
+      if (a.themeScore !== b.themeScore) return b.themeScore - a.themeScore;
       if (a.sameCategory !== b.sameCategory) return a.sameCategory ? -1 : 1;
       if (a.keywordScore !== b.keywordScore) return b.keywordScore - a.keywordScore;
 

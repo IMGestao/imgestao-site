@@ -25,7 +25,7 @@ export default function SiteHeader() {
         </button>
         <nav id="rd-nav" aria-label="Navegação principal" className={open ? "rd-nav rd-nav-open" : "rd-nav"}>
           {items.map(item => item.href === "/insights" ? (
-            <Link key={item.href} to={item.href} aria-current={pathname.startsWith("/insights") ? "page" : undefined} onClick={() => setOpen(false)}>{item.label}</Link>
+            <Link key={item.href} to={item.href} aria-current={pathname === "/insights" ? "page" : undefined} onClick={() => setOpen(false)}>{item.label}</Link>
           ) : (
             <a key={item.href} href={item.href} onClick={() => setOpen(false)}>{item.label}</a>
           ))}
