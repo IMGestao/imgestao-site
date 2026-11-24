@@ -119,7 +119,7 @@ export default function HomePage() {
           <div className="max-w-3xl">
             <div className="text-sm font-medium uppercase tracking-[0.22em] text-slate-500">Metodologia</div>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">
-              Uma abordagem estruturada para traduzir diagnóstico em direção e direção em execução.
+              Uma abordagem estruturada que transforma o diagnóstico em direcionamento estratégico e orienta a execução.
             </h2>
           </div>
 
