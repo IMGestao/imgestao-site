@@ -3,6 +3,7 @@ import { getArticleCover } from "../../features/insights/utils/articleCover.js";
 import { getArticleTheme, getThemeArticles, themePath } from "../../features/insights/data/themes.js";
 import { publicacoes } from "../../features/insights/data/publicacoes.js";
 import { getSortedArticles } from "../../features/insights/utils/articles.js";
+import { CONTACT_EMAIL } from "../institutional/institutionalConfig.js";
 export { resolveCanonical };
 const organizationId = resolveCanonical("/#organization");
 const websiteId = resolveCanonical("/#website");
@@ -32,6 +33,8 @@ export function getHomeSeo() {
         name: defaultSeo.siteName,
         url: canonical,
         logo: resolveCanonical("/im-light-512.png"),
+        description: defaultSeo.description,
+        email: CONTACT_EMAIL,
       },
       {
         "@context": "https://schema.org",
@@ -130,6 +133,7 @@ export function getArticleSeo(article) {
           "@type": "Organization",
           "@id": organizationId,
           name: article.autor || defaultSeo.siteName,
+          url: resolveCanonical("/sobre-a-im"),
         },
         publisher: {
           "@type": "Organization",
@@ -146,9 +150,21 @@ export function getArticleSeo(article) {
         image: resolveCanonical(getArticleCover(article) || defaultSeo.image),
         keywords: (article.palavrasChave || []).join(", "),
         articleSection: article.categoria || "Insights",
+        ...(article.referencias?.length ? { citation: article.referencias.map(ref => ref.url ? { "@type": "CreativeWork", name: ref.titulo, url: ref.url } : { "@type": "CreativeWork", name: ref.titulo }) } : {}),
       },
     ],
   };
+}
+
+export function getInstitutionalSeo(page) {
+  const canonical = resolveCanonical(page.path);
+  return { ...defaultSeo, title: page.path === "/sobre-a-im" ? page.title : `${page.title} | ${SITE_NAME}`, description: page.description, canonical, type: "website", jsonLd: [
+    { "@context": "https://schema.org", "@type": page.type, "@id": canonical + "#page", url: canonical, name: page.title, description: page.description, isPartOf: { "@id": websiteId }, publisher: { "@id": organizationId }, ...(page.type === "AboutPage" ? { mainEntity: { "@id": organizationId, "@type": "Organization", name: SITE_NAME, url: resolveCanonical("/"), email: CONTACT_EMAIL, logo: resolveCanonical("/im-light-512.png") } } : { about: { "@id": organizationId } }) },
+    { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: resolveCanonical("/") },
+      { "@type": "ListItem", position: 2, name: page.title, item: canonical },
+    ] },
+  ] };
 }
 
 export function getThemeSeo(theme) {

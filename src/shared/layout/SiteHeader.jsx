@@ -5,7 +5,7 @@ import logo from "../../assets/logo-im-transparent.png";
 const items = [
   { label: "Soluções", href: "/#atuacao" },
   { label: "Insights", href: "/insights" },
-  { label: "Sobre a IM", href: "/#sobre" },
+  { label: "Sobre a IM", href: "/sobre-a-im" },
   { label: "Metodologia", href: "/#metodologia" }
 ];
 
@@ -24,8 +24,8 @@ export default function SiteHeader() {
           {open ? "Fechar" : "Menu"}
         </button>
         <nav id="rd-nav" aria-label="Navegação principal" className={open ? "rd-nav rd-nav-open" : "rd-nav"}>
-          {items.map(item => item.href === "/insights" ? (
-            <Link key={item.href} to={item.href} aria-current={pathname === "/insights" ? "page" : undefined} onClick={() => setOpen(false)}>{item.label}</Link>
+          {items.map(item => !item.href.includes("#") ? (
+            <Link key={item.href} to={item.href} aria-current={pathname === item.href ? "page" : undefined} onClick={() => setOpen(false)}>{item.label}</Link>
           ) : (
             <a key={item.href} href={item.href} onClick={() => setOpen(false)}>{item.label}</a>
           ))}

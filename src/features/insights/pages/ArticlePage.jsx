@@ -163,20 +163,20 @@ export default function ArticlePage() {
               </p>
 
               <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-slate-300">
-                <span>{artigo.edicaoRetroativa ? "Edição de " : ""}{formatDate(artigo.data)}</span>
+                <span>{artigo.edicaoRetroativa ? "Edição de " : "Publicado em "}<time dateTime={artigo.data}>{formatDate(artigo.data)}</time></span>
                 <span>•</span>
-                <span>{artigo.autor}</span>
+                <Link to="/sobre-a-im" className="underline underline-offset-4 hover:text-white">{artigo.autor}</Link>
                 {artigo.tempoLeitura && <><span>·</span><span>{artigo.tempoLeitura}</span></>}
                 {artigo.updatedAt && artigo.updatedAt !== artigo.data && (
                   <>
                     <span>•</span>
-                    <span>Atualizado em {formatDate(artigo.updatedAt)}</span>
+                    <span>Atualizado em <time dateTime={artigo.updatedAt}>{formatDate(artigo.updatedAt)}</time></span>
                   </>
                 )}
               </div>
             </div>
 
-            {artigo.edicaoRetroativa && <p className="mt-4 text-sm text-slate-300">Série retrospectiva de 2026. {artigo.dataPublicacao ? `Publicado em ${formatDate(artigo.dataPublicacao)}.` : "Em homologação, aguardando publicação."}</p>}
+            {artigo.edicaoRetroativa && <p className="mt-4 text-sm text-slate-300">Série retrospectiva de 2026. {artigo.dataPublicacao ? <>Publicado em <time dateTime={artigo.dataPublicacao}>{formatDate(artigo.dataPublicacao)}</time>.</> : "Em homologação, aguardando publicação."}</p>}
             <div className="mt-8">
               <BannerAbstrato artigo={artigo} />
             </div>
