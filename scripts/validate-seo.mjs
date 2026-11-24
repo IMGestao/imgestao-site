@@ -5,13 +5,14 @@ import { publicacoes } from "../src/features/insights/data/publicacoes.js";
 import { SITE_URL } from "../src/shared/seo/siteConfig.js";
 import { themes, themePath, getArticleTheme, getThemeArticles, getTheme, isPublished } from "../src/features/insights/data/themes.js";
 import { getRelatedArticles, getSortedArticles } from "../src/features/insights/utils/articles.js";
+import { institutionalPages, CONTACT_EMAIL, correctionMailto } from "../src/shared/institutional/institutionalConfig.js";
 const read = file => fs.readFileSync(path.join("dist", file), "utf8");
 const sitemap = read("sitemap.xml");
 const legacyHost = /https?:\/\/www\.imgestao\.com\.br(?:[/:?#]|$)/i;
 assert.equal(SITE_URL, "https://imgestao.com.br", "Domínio oficial sem www");
 assert(!legacyHost.test(sitemap), "Sitemap sem domínio antigo");
 assert(!legacyHost.test(read("robots.txt")), "Robots sem domínio antigo");
-const routes = ["/", "/insights", ...themes.map(themePath), ...publicacoes.map(a => "/insights/" + a.slug)];
+const routes = ["/", "/insights", ...institutionalPages.map(p => p.path), ...themes.map(themePath), ...publicacoes.map(a => "/insights/" + a.slug)];
 assert.equal(new Set(themes.map(t => t.slug)).size, themes.length, "Temas exclusivos");
 const assignments = themes.flatMap(t => t.articles);
 assert.equal(new Set(assignments).size, assignments.length, "Classificação primária sem duplicidade");
@@ -32,13 +33,23 @@ for (const route of routes) {
   assert.equal((html.match(/rel="canonical"/g) || []).length, 1);
   const scripts = [...html.matchAll(/<script type="application\/ld\+json" data-seo-jsonld="true">([\s\S]*?)<\/script>/g)];
   assert(scripts.length, route + ": JSON-LD");
+  const structured = scripts.map(([, json]) => JSON.parse(json));
   for (const [, json] of scripts) {
     JSON.parse(json);
     assert(!legacyHost.test(json), route + ": JSON-LD sem domínio antigo");
   }
   const article = publicacoes.find(a => route === "/insights/" + a.slug);
+  const institutional = institutionalPages.find(p => route === p.path);
+  for (const p of institutionalPages) assert(html.includes('href="' + p.path + '"'), route + ": página institucional rastreável");
+  if (institutional) assert(structured.some(s => s["@type"] === institutional.type && s.url === SITE_URL + route), route + ": dados estruturados institucionais");
   const theme = themes.find(t => themePath(t) === route);
   if (article) {
+    const schema = structured.find(s => s["@type"] === "Article");
+    assert.equal(schema.author.url, SITE_URL + "/sobre-a-im", route + ": autoria navegável");
+    assert.equal(schema.author.name, article.autor, route + ": autoria preservada");
+    assert.equal(schema.citation?.length, article.referencias?.length, route + ": referências estruturadas");
+    assert(html.includes('href="' + correctionMailto(article.slug) + '"'), route + ": canal de correção");
+    assert(html.includes("Sobre esta publicação"), route + ": transparência");
     assert(html.includes('href="' + themePath(getArticleTheme(article)) + '"'), route + ": link para tema");
     assert(getRelatedArticles(getSortedArticles(publicacoes), article).every(a => a.slug !== article.slug && isPublished(a)), route + ": relacionados válidos");
     assert(html.includes("Em resumo"), route + ": resumo");
@@ -60,7 +71,9 @@ for (const route of routes) {
 }
 const hub = read("insights.html");
 for (const theme of themes) assert(hub.includes('href="' + themePath(theme) + '"'), theme.slug + ": tema rastreável");
-assert.equal((sitemap.match(/<loc>/g) || []).length, 2 + themes.length + publicacoes.filter(isPublished).length);
+assert.equal((sitemap.match(/<loc>/g) || []).length, 2 + institutionalPages.length + themes.length + publicacoes.filter(isPublished).length);
+assert(read("sobre-a-im.html").includes(`mailto:${CONTACT_EMAIL}`));
+assert(read("politica-de-correcoes.html").includes(correctionMailto()));
 for (const article of publicacoes.slice(0, 18)) assert(hub.includes('href="/insights/' + article.slug + '"'), article.slug + ": link rastreável");
 assert.match(read("404.html"), /name="robots" content="noindex,follow"/);
 assert(!legacyHost.test(read("404.html")), "404 sem domínio antigo");

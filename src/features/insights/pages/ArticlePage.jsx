@@ -4,6 +4,7 @@ import InsightCard from "../components/InsightCard";
 import EditorialVisual from "../components/EditorialVisual";
 import { publicacoes } from "../data/publicacoes";
 import { getArticleTheme, themePath } from "../data/themes.js";
+import { correctionMailto } from "../../../shared/institutional/institutionalConfig.js";
 import {
   formatDate,
   getRelatedArticles,
@@ -163,20 +164,20 @@ export default function ArticlePage() {
               </p>
 
               <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-slate-300">
-                <span>{artigo.edicaoRetroativa ? "Edição de " : ""}{formatDate(artigo.data)}</span>
+                <span>{artigo.edicaoRetroativa ? "Edição de " : "Publicado em "}<time dateTime={artigo.data}>{formatDate(artigo.data)}</time></span>
                 <span>•</span>
-                <span>{artigo.autor}</span>
+                <Link to="/sobre-a-im" className="underline underline-offset-4 hover:text-white">{artigo.autor}</Link>
                 {artigo.tempoLeitura && <><span>·</span><span>{artigo.tempoLeitura}</span></>}
                 {artigo.updatedAt && artigo.updatedAt !== artigo.data && (
                   <>
                     <span>•</span>
-                    <span>Atualizado em {formatDate(artigo.updatedAt)}</span>
+                    <span>Atualizado em <time dateTime={artigo.updatedAt}>{formatDate(artigo.updatedAt)}</time></span>
                   </>
                 )}
               </div>
             </div>
 
-            {artigo.edicaoRetroativa && <p className="mt-4 text-sm text-slate-300">Série retrospectiva de 2026. {artigo.dataPublicacao ? `Publicado em ${formatDate(artigo.dataPublicacao)}.` : "Em homologação, aguardando publicação."}</p>}
+            {artigo.edicaoRetroativa && <p className="mt-4 text-sm text-slate-300">Série retrospectiva de 2026. {artigo.dataPublicacao ? <>Publicado em <time dateTime={artigo.dataPublicacao}>{formatDate(artigo.dataPublicacao)}</time>.</> : "Em homologação, aguardando publicação."}</p>}
             <div className="mt-8">
               <BannerAbstrato artigo={artigo} />
             </div>
@@ -216,6 +217,7 @@ export default function ArticlePage() {
                   <ul>{artigo.referencias.map(ref => <li key={ref.titulo}>{ref.url ? <a href={ref.url}>{ref.titulo}</a> : ref.titulo}</li>)}</ul>
                 </section>
               )}
+              <section className="my-8 border-t border-slate-200 pt-6" aria-labelledby="editorial-transparency"><h2 id="editorial-transparency" className="text-xl font-semibold text-[#0b2038]">Sobre esta publicação</h2><p className="mt-3 text-base leading-7 text-slate-700">Autoria institucional: <Link to="/sobre-a-im" className="underline text-[#174b78]">{artigo.autor}</Link>. Conheça os critérios de fundamentação e transparência da nossa produção de conhecimento.</p><div className="mt-4 flex flex-wrap gap-x-6 gap-y-3"><Link to="/politica-editorial" className="rd-text-link">Política editorial</Link><Link to="/politica-de-correcoes" className="rd-text-link">Política de correções</Link><a href={correctionMailto(artigo.slug)} className="rd-text-link">Sugerir uma correção</a></div></section>
               <div className="rd-reading-end"><Link to="/insights" className="rd-text-link">Explorar outros insights</Link><a href="/#contato" className="rd-button">Fale conosco</a></div>
             </article>
           </div>
