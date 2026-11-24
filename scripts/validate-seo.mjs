@@ -6,6 +6,7 @@ import { SITE_URL } from "../src/shared/seo/siteConfig.js";
 import { themes, themePath, getArticleTheme, getThemeArticles, getTheme, isPublished } from "../src/features/insights/data/themes.js";
 import { getRelatedArticles, getSortedArticles } from "../src/features/insights/utils/articles.js";
 import { institutionalPages, CONTACT_EMAIL } from "../src/shared/institutional/institutionalConfig.js";
+import { glossary, glossaryPath, termPath, articleAnswers, themeAnswers, getTermsByTheme, getTermsByArticle } from "../src/features/insights/data/knowledge.js";
 const read = file => fs.readFileSync(path.join("dist", file), "utf8");
 const sitemap = read("sitemap.xml");
 const removedPages = ["/politica-editorial", "/politica-de-correcoes"];
@@ -17,7 +18,11 @@ const legacyHost = /https?:\/\/www\.imgestao\.com\.br(?:[/:?#]|$)/i;
 assert.equal(SITE_URL, "https://imgestao.com.br", "Domínio oficial sem www");
 assert(!legacyHost.test(sitemap), "Sitemap sem domínio antigo");
 assert(!legacyHost.test(read("robots.txt")), "Robots sem domínio antigo");
-const routes = ["/", "/insights", ...institutionalPages.map(p => p.path), ...themes.map(themePath), ...publicacoes.map(a => "/insights/" + a.slug)];
+const routes = ["/", "/insights", glossaryPath, ...institutionalPages.map(p => p.path), ...themes.map(themePath), ...publicacoes.map(a => "/insights/" + a.slug)];
+assert.equal(new Set(glossary.map(t => t.slug)).size, glossary.length, "Termos únicos");
+assert(glossary.every(t => getTheme(t.theme) && t.articles.length && t.articles.every(slug => publicacoes.some(a => a.slug === slug && isPublished(a)))), "Conexões de glossário válidas");
+assert(publicacoes.every(a => articleAnswers[a.slug]?.length >= 2 && getTermsByArticle(a.slug).length), "Artigos com respostas e conceitos");
+assert(themes.every(t => themeAnswers[t.slug]?.length >= 2 && getTermsByTheme(t.slug).length), "Temas com respostas e conceitos");
 assert.equal(new Set(themes.map(t => t.slug)).size, themes.length, "Temas exclusivos");
 const assignments = themes.flatMap(t => t.articles);
 assert.equal(new Set(assignments).size, assignments.length, "Classificação primária sem duplicidade");
@@ -47,6 +52,8 @@ for (const route of routes) {
   }
   const article = publicacoes.find(a => route === "/insights/" + a.slug);
   const institutional = institutionalPages.find(p => route === p.path);
+  const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0] || "";
+  assert(!footer.includes('href="/glossario"'), route + ": glossário fora do rodapé global");
   for (const p of institutionalPages) assert(html.includes('href="' + p.path + '"'), route + ": página institucional rastreável");
   if (institutional) assert(structured.some(s => s["@type"] === institutional.type && s.url === SITE_URL + route), route + ": dados estruturados institucionais");
   const theme = themes.find(t => themePath(t) === route);
@@ -55,6 +62,9 @@ for (const route of routes) {
     assert.equal(schema.author.url, SITE_URL + "/sobre-a-im", route + ": autoria navegável");
     assert.equal(schema.author.name, article.autor, route + ": autoria preservada");
     assert.equal(schema.citation?.length, article.referencias?.length, route + ": referências estruturadas");
+    assert.equal(schema.mentions.length, getTermsByArticle(article.slug).length, route + ": conceitos estruturados");
+    assert(html.includes('id="knowledge-answers"'), route + ": perguntas e respostas visíveis");
+    for (const term of getTermsByArticle(article.slug)) assert(html.includes('href="' + termPath(term) + '"'), route + ": conceito vinculado");
     assert(html.includes('href="' + themePath(getArticleTheme(article)) + '"'), route + ": link para tema");
     assert(getRelatedArticles(getSortedArticles(publicacoes), article).every(a => a.slug !== article.slug && isPublished(a)), route + ": relacionados válidos");
     assert(html.includes("Em resumo"), route + ": resumo");
@@ -67,16 +77,28 @@ for (const route of routes) {
   } else {
     assert(sitemap.includes("<loc>" + SITE_URL + route + "</loc>"));
     if (theme) {
+      assert(html.includes('id="knowledge-answers"'), route + ": perguntas e respostas visíveis");
+      for (const term of getTermsByTheme(theme.slug)) assert(html.includes('href="' + termPath(term) + '"'), route + ": conceito vinculado");
       assert(html.includes('"@type":"CollectionPage"'), route + ": CollectionPage");
       for (const a of getThemeArticles(theme, publicacoes)) assert(html.includes('href="/insights/' + a.slug + '"'), route + ": artigo vinculado");
       for (const slug of theme.related) assert(html.includes('href="/temas/' + slug + '"'), route + ": tema relacionado");
       assert(html.includes('href="/#solucao-' + (theme.serviceIndex + 1) + '"'), route + ": serviço vinculado");
     }
+    if (route === glossaryPath) {
+      const set = structured.find(s => s["@type"] === "DefinedTermSet");
+      assert.equal(set.hasDefinedTerm.length, glossary.length);
+      for (const term of glossary) {
+        assert(html.includes('id="' + term.slug + '"'), term.slug + ": definição visível");
+        assert(set.hasDefinedTerm.some(t => t["@id"] === SITE_URL + termPath(term) && t.description === term.definition));
+        for (const slug of term.articles) assert(html.includes('href="/insights/' + slug + '"'), term.slug + ": leitura correspondente");
+      }
+    }
   }
 }
 const hub = read("insights.html");
+assert(hub.includes('href="/glossario"') && hub.indexOf('id="insights-glossary"') > hub.indexOf('id="all-insights"'), "Glossário rastreável ao final dos Insights");
 for (const theme of themes) assert(hub.includes('href="' + themePath(theme) + '"'), theme.slug + ": tema rastreável");
-assert.equal((sitemap.match(/<loc>/g) || []).length, 2 + institutionalPages.length + themes.length + publicacoes.filter(isPublished).length);
+assert.equal((sitemap.match(/<loc>/g) || []).length, 3 + institutionalPages.length + themes.length + publicacoes.filter(isPublished).length);
 assert(read("sobre-a-im.html").includes(`mailto:${CONTACT_EMAIL}`));
 for (const article of publicacoes.slice(0, 18)) assert(hub.includes('href="/insights/' + article.slug + '"'), article.slug + ": link rastreável");
 assert.match(read("404.html"), /name="robots" content="noindex,follow"/);

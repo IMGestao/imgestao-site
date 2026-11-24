@@ -132,6 +132,9 @@ export default function InsightsPage() {
             </div>
           )}
         </section>
+        <section className="mx-auto max-w-7xl px-6 pb-16 lg:px-8" aria-labelledby="insights-glossary">
+          <div className="border border-slate-200 bg-slate-50 p-6"><h2 id="insights-glossary" className="text-xl font-semibold text-[#0b2038]">Glossário de gestão empresarial</h2><p className="mt-2 text-base leading-7 text-slate-600">Consulte os conceitos fundamentais que conectam nossos temas e artigos.</p><Link to="/glossario" className="rd-text-link mt-3 inline-block">Explorar glossário</Link></div>
+        </section>
       </main>
 
       <SiteFooter />
