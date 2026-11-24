@@ -86,7 +86,6 @@ export default function InsightsPage() {
         <section id="temas" className="mx-auto max-w-7xl scroll-mt-28 px-6 pt-14 lg:px-8" aria-labelledby="knowledge-themes">
           <div className="rd-section-heading"><div><p className="rd-kicker">Biblioteca de conhecimento</p><h2 id="knowledge-themes">Explore por área de conhecimento</h2></div><p>Encontre conceitos, aplicações práticas e artigos relacionados a cinco grandes temas de gestão empresarial.</p></div>
           <div className="mt-8"><ThemeDirectory /></div>
-          <div className="mt-6 border border-slate-200 bg-slate-50 p-5"><h3 className="text-xl font-semibold text-[#0b2038]">Glossário de gestão empresarial</h3><p className="mt-2 text-base leading-7 text-slate-600">Consulte os conceitos fundamentais que conectam nossos temas e artigos.</p><Link to="/glossario" className="rd-text-link mt-3 inline-block">Explorar glossário</Link></div>
         </section>
         <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20" aria-labelledby="all-insights">
           <h2 id="all-insights" className="mb-6 text-2xl font-semibold text-[#0b2038]">Todos os Insights</h2>
@@ -132,6 +131,9 @@ export default function InsightsPage() {
               </button>
             </div>
           )}
+        </section>
+        <section className="mx-auto max-w-7xl px-6 pb-16 lg:px-8" aria-labelledby="insights-glossary">
+          <div className="border border-slate-200 bg-slate-50 p-6"><h2 id="insights-glossary" className="text-xl font-semibold text-[#0b2038]">Glossário de gestão empresarial</h2><p className="mt-2 text-base leading-7 text-slate-600">Consulte os conceitos fundamentais que conectam nossos temas e artigos.</p><Link to="/glossario" className="rd-text-link mt-3 inline-block">Explorar glossário</Link></div>
         </section>
       </main>
 

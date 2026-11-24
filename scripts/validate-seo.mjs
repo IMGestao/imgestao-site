@@ -52,7 +52,8 @@ for (const route of routes) {
   }
   const article = publicacoes.find(a => route === "/insights/" + a.slug);
   const institutional = institutionalPages.find(p => route === p.path);
-  assert(html.includes('href="/glossario"'), route + ": glossário rastreável");
+  const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0] || "";
+  assert(!footer.includes('href="/glossario"'), route + ": glossário fora do rodapé global");
   for (const p of institutionalPages) assert(html.includes('href="' + p.path + '"'), route + ": página institucional rastreável");
   if (institutional) assert(structured.some(s => s["@type"] === institutional.type && s.url === SITE_URL + route), route + ": dados estruturados institucionais");
   const theme = themes.find(t => themePath(t) === route);
@@ -95,6 +96,7 @@ for (const route of routes) {
   }
 }
 const hub = read("insights.html");
+assert(hub.includes('href="/glossario"') && hub.indexOf('id="insights-glossary"') > hub.indexOf('id="all-insights"'), "Glossário rastreável ao final dos Insights");
 for (const theme of themes) assert(hub.includes('href="' + themePath(theme) + '"'), theme.slug + ": tema rastreável");
 assert.equal((sitemap.match(/<loc>/g) || []).length, 3 + institutionalPages.length + themes.length + publicacoes.filter(isPublished).length);
 assert(read("sobre-a-im.html").includes(`mailto:${CONTACT_EMAIL}`));
