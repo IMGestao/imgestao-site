@@ -69,8 +69,8 @@ export function getSortedArticles(articles = []) {
   return articles
     .map(normalizeArticle)
     .sort((a, b) => {
-      const bDate = parseDate(b.updatedAt || b.data)?.getTime() || 0;
-      const aDate = parseDate(a.updatedAt || a.data)?.getTime() || 0;
+      const bDate = parseDate(b.data)?.getTime() || 0;
+      const aDate = parseDate(a.data)?.getTime() || 0;
       return bDate - aDate;
     });
 }
