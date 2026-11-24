@@ -112,6 +112,7 @@
       continue;
     }
 
+    flushLista();
     paragrafoBuffer.push(linha);
   }
 
