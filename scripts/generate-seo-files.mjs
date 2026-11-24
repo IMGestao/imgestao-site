@@ -8,6 +8,7 @@ const ROOT = path.resolve(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const DATA_FILE = path.join(ROOT, "src", "features", "insights", "data", "publicacoes.js");
 import { SITE_URL } from "../src/shared/seo/siteConfig.js";
+import { themes, themePath } from "../src/features/insights/data/themes.js";
 
 function normalizeDate(value = "") {
   const match = String(value || "").match(/\d{4}-\d{2}-\d{2}/);
@@ -18,6 +19,7 @@ function buildSitemapXml(publicacoes = []) {
   const staticRoutes = [
     { loc: `${SITE_URL}/`, lastmod: null, changefreq: "weekly", priority: "1.0" },
     { loc: `${SITE_URL}/insights`, lastmod: null, changefreq: "daily", priority: "0.9" },
+    ...themes.map(theme => ({ loc: SITE_URL + themePath(theme), lastmod: null, changefreq: "weekly", priority: "0.8" })),
   ];
 
   const articleRoutes = publicacoes.filter(article => !article.edicaoRetroativa || article.dataPublicacao).map((article) => ({

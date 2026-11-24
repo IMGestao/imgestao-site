@@ -1,6 +1,7 @@
 ﻿import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import InsightCard from "../components/InsightCard";
+import ThemeDirectory from "../components/ThemeDirectory";
 import { publicacoes } from "../data/publicacoes";
 import {
   filterArticles,
@@ -82,7 +83,12 @@ export default function InsightsPage() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
+        <section id="temas" className="mx-auto max-w-7xl scroll-mt-28 px-6 pt-14 lg:px-8" aria-labelledby="knowledge-themes">
+          <div className="rd-section-heading"><div><p className="rd-kicker">Biblioteca de conhecimento</p><h2 id="knowledge-themes">Explore por área de conhecimento</h2></div><p>Encontre conceitos, aplicações práticas e artigos relacionados a cinco grandes temas de gestão empresarial.</p></div>
+          <div className="mt-8"><ThemeDirectory /></div>
+        </section>
+        <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20" aria-labelledby="all-insights">
+          <h2 id="all-insights" className="mb-6 text-2xl font-semibold text-[#0b2038]">Todos os Insights</h2>
           <div className="rounded-3xl border border-slate-200 bg-white p-5 md:p-6">
             <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
               <SearchInput
