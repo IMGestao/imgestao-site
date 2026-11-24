@@ -70,6 +70,8 @@ for (const route of routes) {
     assert(html.includes("Em resumo"), route + ": resumo");
     assert(html.includes("Referências e leitura complementar"), route + ": referências");
     assert(html.includes("rd-reading-body"), route + ": conteúdo");
+    assert.match(html, /<details class="rd-reading-index" open=""><summary class="rd-reading-index-toggle"/, route + ": índice recolhível aberto por padrão");
+    assert(html.includes('aria-label="Neste artigo"'), route + ": índice acessível");
     const published = !article.edicaoRetroativa || article.dataPublicacao;
     if (published) assert(sitemap.includes("<loc>" + SITE_URL + route + "</loc>"));
     else assert(!sitemap.includes("<loc>" + SITE_URL + route + "</loc>"));
