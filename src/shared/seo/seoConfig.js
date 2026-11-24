@@ -4,9 +4,11 @@ import { getArticleTheme, getThemeArticles, themePath } from "../../features/ins
 import { publicacoes } from "../../features/insights/data/publicacoes.js";
 import { getSortedArticles } from "../../features/insights/utils/articles.js";
 import { CONTACT_EMAIL } from "../institutional/institutionalConfig.js";
+import { glossary, glossaryPath, termPath, getTermsByTheme, getTermsByArticle } from "../../features/insights/data/knowledge.js";
 export { resolveCanonical };
 const organizationId = resolveCanonical("/#organization");
 const websiteId = resolveCanonical("/#website");
+const conceptEntity = term => ({ "@id": resolveCanonical(termPath(term)), "@type": "DefinedTerm", name: term.name });
 
 export const defaultSeo = {
   siteName: SITE_NAME,
@@ -147,6 +149,7 @@ export function getArticleSeo(article) {
         ...(publishedTime ? { datePublished: publishedTime, dateModified: modifiedTime } : {}),
         mainEntityOfPage: canonical,
         ...(theme ? { about: { "@id": resolveCanonical(themePath(theme)) + "#topic", "@type": "Thing", name: theme.title } } : {}),
+        mentions: getTermsByArticle(article.slug).map(conceptEntity),
         image: resolveCanonical(getArticleCover(article) || defaultSeo.image),
         keywords: (article.palavrasChave || []).join(", "),
         articleSection: article.categoria || "Insights",
@@ -176,6 +179,7 @@ export function getThemeSeo(theme) {
     title: `${theme.title} | IM Estratégia e Gestão`, description: theme.description, canonical, type: "website",
     jsonLd: [
       { "@context": "https://schema.org", "@type": "CollectionPage", "@id": canonical + "#page", url: canonical, name: theme.title, description: theme.description, about: topic,
+        mentions: getTermsByTheme(theme.slug).map(conceptEntity),
         isPartOf: { "@id": websiteId }, publisher: { "@id": organizationId },
         mainEntity: { "@type": "ItemList", itemListElement: articles.map((article, index) => ({ "@type": "ListItem", position: index + 1, url: resolveCanonical(`/insights/${article.slug}`), name: article.titulo })) },
       },
@@ -186,6 +190,21 @@ export function getThemeSeo(theme) {
       ] },
     ],
   };
+}
+
+export function getGlossarySeo() {
+  const canonical = resolveCanonical(glossaryPath);
+  const title = "Glossário de gestão empresarial";
+  const description = "Definições de conceitos de estratégia, governança, processos, transformação digital e desenvolvimento organizacional, conectadas aos Insights da IM.";
+  return { ...defaultSeo, title: `${title} | ${SITE_NAME}`, description, canonical, type: "website", jsonLd: [
+    { "@context": "https://schema.org", "@type": "WebPage", "@id": canonical + "#page", url: canonical, name: title, description, isPartOf: { "@id": websiteId }, publisher: { "@id": organizationId }, mainEntity: { "@id": canonical + "#termos" } },
+    { "@context": "https://schema.org", "@type": "DefinedTermSet", "@id": canonical + "#termos", name: title, url: canonical, hasDefinedTerm: glossary.map(term => ({ ...conceptEntity(term), url: resolveCanonical(termPath(term)), description: term.definition, inDefinedTermSet: { "@id": canonical + "#termos" } })) },
+    { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: resolveCanonical("/") },
+      { "@type": "ListItem", position: 2, name: "Insights", item: resolveCanonical("/insights") },
+      { "@type": "ListItem", position: 3, name: "Glossário", item: canonical },
+    ] },
+  ] };
 }
 
 export function getNotFoundSeo() {

@@ -4,6 +4,8 @@ import InsightCard from "../components/InsightCard";
 import EditorialVisual from "../components/EditorialVisual";
 import { publicacoes } from "../data/publicacoes";
 import { getArticleTheme, themePath } from "../data/themes.js";
+import { articleAnswers, getTermsByArticle } from "../data/knowledge.js";
+import KnowledgeAnswers from "../components/KnowledgeAnswers";
 import {
   formatDate,
   getRelatedArticles,
@@ -209,6 +211,7 @@ export default function ArticlePage() {
                   return <p key={index} className={index === 0 ? "rd-reading-intro" : undefined}><InlineText text={bloco.texto} /></p>;
                 })}
               </div>
+              <KnowledgeAnswers answers={articleAnswers[artigo.slug]} terms={getTermsByArticle(artigo.slug)} />
               {theme && <section className="my-8 border-l-4 border-[#174b78] bg-slate-50 p-5" aria-labelledby="theme-context"><h2 id="theme-context" className="text-xl font-semibold text-[#0b2038]">Explore este tema</h2><p className="mt-2 text-base leading-7 text-slate-700">{theme.description}</p><Link to={themePath(theme)} className="rd-text-link mt-3 inline-block">{theme.title}</Link></section>}
               {artigo.referencias?.length > 0 && (
                 <section className="rd-references" aria-labelledby="referencias">

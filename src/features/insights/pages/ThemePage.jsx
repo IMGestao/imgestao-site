@@ -1,5 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { getTheme, getThemeArticles } from "../data/themes.js";
+import { getTermsByTheme, themeAnswers } from "../data/knowledge.js";
+import KnowledgeAnswers from "../components/KnowledgeAnswers";
 import { publicacoes } from "../data/publicacoes.js";
 import { getSortedArticles } from "../utils/articles.js";
 import InsightCard from "../components/InsightCard";
@@ -34,9 +36,10 @@ export default function ThemePage() {
         </section>
         <section className="mx-auto grid max-w-7xl gap-10 px-6 py-14 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:px-8">
           <div className="max-w-3xl">
-            <h2 className="text-3xl font-semibold text-[#0b2038]">O que é {theme.title.toLocaleLowerCase("pt-BR")}?</h2>
+            <h2 className="text-3xl font-semibold text-[#0b2038]">Entenda o tema</h2>
             <p className="mt-4 text-lg leading-8 text-slate-700">{theme.definition}</p>
             {theme.sections.map(section => <section key={section.title} className="mt-9"><h3 className="text-xl font-semibold text-[#0b2038]">{section.title}</h3><p className="mt-3 text-base leading-8 text-slate-700">{section.text}</p></section>)}
+            <KnowledgeAnswers answers={themeAnswers[theme.slug]} terms={getTermsByTheme(theme.slug)} />
           </div>
           <aside className="self-start border-t-4 border-[#174b78] bg-slate-50 p-6">
             <h2 className="text-xl font-semibold text-[#0b2038]">Conceitos centrais</h2>
