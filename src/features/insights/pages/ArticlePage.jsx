@@ -189,10 +189,15 @@ export default function ArticlePage() {
           <div className="rd-reading-layout">
             {headings.length > 0 && (
               <aside className="rd-reading-aside">
-                <nav aria-label="Neste artigo">
-                  <h2>Neste artigo</h2>
-                  <ul>{headings.map(bloco => <li key={bloco.texto}><a href={`#${headingToAnchor(bloco.texto)}`}>{bloco.texto}</a></li>)}</ul>
-                </nav>
+                <details className="rd-reading-index" open>
+                  <summary className="rd-reading-index-toggle" title="Recolher ou expandir o índice">
+                    <span className="rd-reading-index-label">Neste artigo</span>
+                    <svg className="rd-reading-index-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16m6-11-3 3 3 3"/></svg>
+                  </summary>
+                  <nav className="rd-reading-index-content" aria-label="Neste artigo">
+                    <ul>{headings.map(bloco => <li key={bloco.texto}><a href={`#${headingToAnchor(bloco.texto)}`}>{bloco.texto}</a></li>)}</ul>
+                  </nav>
+                </details>
               </aside>
             )}
             <article className="rd-reading">
