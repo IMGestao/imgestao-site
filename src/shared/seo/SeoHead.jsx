@@ -70,6 +70,8 @@ export default function SeoHead({ config = {} }) {
         { property: "article:modified_time" },
         meta.modifiedTime || ""
       );
+    } else {
+      document.head.querySelectorAll('meta[property="article:published_time"], meta[property="article:modified_time"]').forEach(node => node.remove());
     }
 
     cleanupJsonLd();

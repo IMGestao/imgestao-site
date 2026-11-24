@@ -14,7 +14,7 @@ import CategoryPills from "../../../shared/ui/CategoryPills";
 import SeoHead from "../../../shared/seo/SeoHead";
 import { getInsightsSeo } from "../../../shared/seo/seoConfig";
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 18;
 
 export default function InsightsPage() {
   const [term, setTerm] = useState("");

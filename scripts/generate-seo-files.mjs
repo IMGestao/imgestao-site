@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const DATA_FILE = path.join(ROOT, "src", "features", "insights", "data", "publicacoes.js");
-const SITE_URL = "https://www.imgestao.com.br";
+import { SITE_URL } from "../src/shared/seo/siteConfig.js";
 
 function normalizeDate(value = "") {
   const match = String(value || "").match(/\d{4}-\d{2}-\d{2}/);

@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite",
     "prebuild": "node scripts/generate-seo-files.mjs",
-    "build": "vite build && node scripts/prerender-dist.mjs",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir .ssg && node scripts/prerender-dist.mjs && node scripts/validate-seo.mjs",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:seo": "node scripts/validate-seo.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.1",
