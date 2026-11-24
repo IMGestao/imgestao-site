@@ -170,7 +170,7 @@ export default function ArticlePage() {
               </p>
 
               <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-slate-300">
-                <span>{formatDate(artigo.data)}</span>
+                <span>{artigo.edicaoRetroativa ? "Edição de " : ""}{formatDate(artigo.data)}</span>
                 <span>•</span>
                 <span>{artigo.autor}</span>
                 {artigo.tempoLeitura && <><span>·</span><span>{artigo.tempoLeitura}</span></>}
@@ -183,6 +183,7 @@ export default function ArticlePage() {
               </div>
             </div>
 
+            {artigo.edicaoRetroativa && <p className="mt-4 text-sm text-slate-300">Série retrospectiva de 2026. {artigo.dataPublicacao ? `Publicado em ${formatDate(artigo.dataPublicacao)}.` : "Em homologação, aguardando publicação."}</p>}
             <div className="mt-8">
               <BannerAbstrato artigo={artigo} />
             </div>

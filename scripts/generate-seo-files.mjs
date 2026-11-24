@@ -20,9 +20,9 @@ function buildSitemapXml(publicacoes = []) {
     { loc: `${SITE_URL}/insights`, lastmod: null, changefreq: "daily", priority: "0.9" },
   ];
 
-  const articleRoutes = publicacoes.map((article) => ({
+  const articleRoutes = publicacoes.filter(article => !article.edicaoRetroativa || article.dataPublicacao).map((article) => ({
     loc: `${SITE_URL}/insights/${article.slug}`,
-    lastmod: normalizeDate(article.updatedAt || article.data) || null,
+    lastmod: normalizeDate(article.updatedAt || article.dataPublicacao || article.data) || null,
     changefreq: "weekly",
     priority: "0.8",
   }));
