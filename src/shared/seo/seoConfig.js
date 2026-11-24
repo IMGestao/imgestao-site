@@ -80,8 +80,8 @@ export function getInsightsSeo() {
 
 export function getArticleSeo(article) {
   const canonical = resolveCanonical(`/insights/${article.slug}`);
-  const publishedTime = article.data || "";
-  const modifiedTime = article.updatedAt || article.data || "";
+  const publishedTime = article.edicaoRetroativa ? (article.dataPublicacao || "") : (article.data || "");
+  const modifiedTime = article.updatedAt || publishedTime;
 
   return {
     ...defaultSeo,
@@ -89,6 +89,7 @@ export function getArticleSeo(article) {
     description: article.excerpt || article.descricao || defaultSeo.description,
     canonical,
     type: "article",
+    robots: article.edicaoRetroativa && !article.dataPublicacao ? "noindex,nofollow" : "index,follow",
     image: article.cover || defaultSeo.image,
     publishedTime,
     modifiedTime,
@@ -134,8 +135,7 @@ export function getArticleSeo(article) {
             url: resolveCanonical("/im-light-512.png"),
           },
         },
-        datePublished: publishedTime,
-        dateModified: modifiedTime,
+        ...(publishedTime ? { datePublished: publishedTime, dateModified: modifiedTime } : {}),
         mainEntityOfPage: canonical,
         image: resolveCanonical(article.cover || defaultSeo.image),
         keywords: (article.palavrasChave || []).join(", "),

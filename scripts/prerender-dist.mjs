@@ -136,8 +136,8 @@ function buildInsightsMeta() {
 
 function buildArticleMeta(article) {
   const pageCanonical = canonical(`/insights/${article.slug}`);
-  const publishedTime = normalizeDate(article.data);
-  const modifiedTime = normalizeDate(article.updatedAt || article.data);
+  const publishedTime = normalizeDate(article.edicaoRetroativa ? article.dataPublicacao : article.data);
+  const modifiedTime = normalizeDate(article.updatedAt || publishedTime);
   const description = article.excerpt || article.descricao || "Publicação da IM Estratégia e Gestão.";
 
   return {
@@ -145,6 +145,7 @@ function buildArticleMeta(article) {
     description,
     canonical: pageCanonical,
     type: "article",
+    robots: article.edicaoRetroativa && !article.dataPublicacao ? "noindex,nofollow" : "index,follow",
     image: article.cover ? canonical(article.cover) : DEFAULT_IMAGE,
     publishedTime,
     modifiedTime,
@@ -190,8 +191,7 @@ function buildArticleMeta(article) {
             url: DEFAULT_IMAGE,
           },
         },
-        datePublished: publishedTime,
-        dateModified: modifiedTime,
+        ...(publishedTime ? { datePublished: publishedTime, dateModified: modifiedTime } : {}),
         mainEntityOfPage: pageCanonical,
         image: article.cover ? canonical(article.cover) : DEFAULT_IMAGE,
         keywords: (article.palavrasChave || []).join(", "),
