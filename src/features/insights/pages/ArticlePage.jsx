@@ -1,6 +1,7 @@
 ﻿import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import InsightCard from "../components/InsightCard";
+import EditorialVisual from "../components/EditorialVisual";
 import { publicacoes } from "../data/publicacoes";
 import {
   formatDate,
@@ -43,30 +44,7 @@ function pickQuoteFromBlocks(blocos = []) {
 }
 
 function BannerAbstrato({ artigo }) {
-  const hasCover = Boolean(artigo.cover);
-
-  if (hasCover) {
-    return (
-      <div className="overflow-hidden rounded-[2rem] border border-slate-200">
-        <img
-          src={artigo.cover}
-          alt={artigo.titulo}
-          className="h-[340px] w-full object-cover md:h-[420px]"
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative min-h-[300px] overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#dbeafe_0%,#eff6ff_38%,#e2e8f0_76%,#f8fafc_100%)]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.78),transparent_22%),radial-gradient(circle_at_85%_22%,rgba(255,255,255,0.5),transparent_18%),linear-gradient(to_bottom,rgba(255,255,255,0.04),rgba(15,23,42,0.03))]" />
-      <div className="absolute top-[16%] left-[8%] h-24 w-24 rounded-full border border-white/60 bg-white/20 backdrop-blur-sm" />
-      <div className="absolute top-[18%] right-[10%] h-16 w-16 rounded-full border border-white/60 bg-white/25 backdrop-blur-sm" />
-      <div className="absolute bottom-[12%] left-[12%] h-16 w-16 rounded-2xl border border-white/60 bg-white/30 shadow-sm" />
-      <div className="absolute bottom-[12%] left-[40%] h-20 w-20 rounded-2xl border border-white/60 bg-white/30 shadow-sm" />
-      <div className="absolute bottom-[12%] left-[66%] h-24 w-24 rounded-2xl border border-white/60 bg-white/30 shadow-sm" />
-    </div>
-  );
+  return <div className="rd-article-visual"><EditorialVisual article={artigo} /></div>;
 }
 
 function EditorialTable({ headers = [], rows = [] }) {
@@ -195,33 +173,34 @@ export default function ArticlePage() {
       <SiteHeader navItems={navItems} />
 
       <main>
-        <section className="border-b border-slate-200/80 bg-[linear-gradient(180deg,#f8fbff_0%,#f5f7fa_100%)]">
+        <section className="rd-article-banner">
           <div className="mx-auto max-w-7xl px-6 py-14 lg:px-8 lg:py-18">
-            <div className="mb-8 text-sm text-slate-500">
-              <Link to="/" className="transition hover:text-slate-900">
+            <div className="mb-8 text-sm text-slate-300">
+              <Link to="/" className="transition hover:text-white">
                 Home
               </Link>
               <span className="mx-2">/</span>
-              <Link to="/insights" className="transition hover:text-slate-900">
+              <Link to="/insights" className="transition hover:text-white">
                 Insights
               </Link>
               <span className="mx-2">/</span>
-              <span className="text-slate-700">{artigo.categoria}</span>
+              <span className="text-slate-200">{artigo.categoria}</span>
             </div>
 
             <div className="max-w-5xl">
-              <h1 className="font-serif text-5xl leading-tight font-semibold tracking-tight text-slate-950 md:text-7xl">
+              <h1 className="rd-article-title">
                 {artigo.titulo}
               </h1>
 
-              <p className="mt-8 max-w-3xl font-serif text-xl leading-9 text-slate-700 md:text-[26px] md:leading-10">
+              <p className="rd-article-lead">
                 {artigo.excerpt || artigo.descricao}
               </p>
 
-              <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-slate-600">
+              <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-slate-300">
                 <span>{formatDate(artigo.data)}</span>
                 <span>•</span>
                 <span>{artigo.autor}</span>
+                {artigo.tempoLeitura && <><span>·</span><span>{artigo.tempoLeitura}</span></>}
                 {artigo.updatedAt && artigo.updatedAt !== artigo.data && (
                   <>
                     <span>•</span>
@@ -256,7 +235,7 @@ export default function ArticlePage() {
               </section>
             )}
 
-            <div className="rounded-[2rem] border border-slate-200 bg-white px-8 py-12 shadow-sm md:px-14 md:py-16">
+            <div className="rd-article-body">
               {blocos.length > 0 && blocos[0].tipo === "paragrafo" && (
                 <p className="border-l-2 border-slate-900 pl-5 font-serif text-2xl leading-10 text-slate-800 md:text-[30px] md:leading-[1.6]">
                   {blocos[0].texto}
