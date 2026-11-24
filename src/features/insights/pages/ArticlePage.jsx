@@ -4,7 +4,6 @@ import InsightCard from "../components/InsightCard";
 import EditorialVisual from "../components/EditorialVisual";
 import { publicacoes } from "../data/publicacoes";
 import { getArticleTheme, themePath } from "../data/themes.js";
-import { correctionMailto } from "../../../shared/institutional/institutionalConfig.js";
 import {
   formatDate,
   getRelatedArticles,
@@ -217,7 +216,6 @@ export default function ArticlePage() {
                   <ul>{artigo.referencias.map(ref => <li key={ref.titulo}>{ref.url ? <a href={ref.url}>{ref.titulo}</a> : ref.titulo}</li>)}</ul>
                 </section>
               )}
-              <section className="my-8 border-t border-slate-200 pt-6" aria-labelledby="editorial-transparency"><h2 id="editorial-transparency" className="text-xl font-semibold text-[#0b2038]">Sobre esta publicação</h2><p className="mt-3 text-base leading-7 text-slate-700">Autoria institucional: <Link to="/sobre-a-im" className="underline text-[#174b78]">{artigo.autor}</Link>. Conheça os critérios de fundamentação e transparência da nossa produção de conhecimento.</p><div className="mt-4 flex flex-wrap gap-x-6 gap-y-3"><Link to="/politica-editorial" className="rd-text-link">Política editorial</Link><Link to="/politica-de-correcoes" className="rd-text-link">Política de correções</Link><a href={correctionMailto(artigo.slug)} className="rd-text-link">Sugerir uma correção</a></div></section>
               <div className="rd-reading-end"><Link to="/insights" className="rd-text-link">Explorar outros insights</Link><a href="/#contato" className="rd-button">Fale conosco</a></div>
             </article>
           </div>

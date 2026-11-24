@@ -5,9 +5,14 @@ import { publicacoes } from "../src/features/insights/data/publicacoes.js";
 import { SITE_URL } from "../src/shared/seo/siteConfig.js";
 import { themes, themePath, getArticleTheme, getThemeArticles, getTheme, isPublished } from "../src/features/insights/data/themes.js";
 import { getRelatedArticles, getSortedArticles } from "../src/features/insights/utils/articles.js";
-import { institutionalPages, CONTACT_EMAIL, correctionMailto } from "../src/shared/institutional/institutionalConfig.js";
+import { institutionalPages, CONTACT_EMAIL } from "../src/shared/institutional/institutionalConfig.js";
 const read = file => fs.readFileSync(path.join("dist", file), "utf8");
 const sitemap = read("sitemap.xml");
+const removedPages = ["/politica-editorial", "/politica-de-correcoes"];
+for (const route of removedPages) {
+  assert(!sitemap.includes(SITE_URL + route), route + ": removida do sitemap");
+  assert(!fs.existsSync(path.join("dist", route.slice(1) + ".html")), route + ": HTML removido");
+}
 const legacyHost = /https?:\/\/www\.imgestao\.com\.br(?:[/:?#]|$)/i;
 assert.equal(SITE_URL, "https://imgestao.com.br", "Domínio oficial sem www");
 assert(!legacyHost.test(sitemap), "Sitemap sem domínio antigo");
@@ -22,6 +27,8 @@ assert(themes.every(t => t.related.every(slug => slug !== t.slug && getTheme(slu
 const titles = new Set();
 for (const route of routes) {
   const html = read(route === "/" ? "index.html" : route.slice(1) + ".html");
+  for (const removed of removedPages) assert(!html.includes(removed), route + ": sem referência a " + removed);
+  assert(!html.includes("Sugerir uma correção"), route + ": sem canal editorial de correções");
   assert(!legacyHost.test(html), route + ": sem domínio antigo no HTML");
   assert.match(html, /<div id="root" data-prerendered="true">[\s\S]+<main/);
   assert.equal((html.match(/<h1(?:\s|>)/g) || []).length, 1, route + ": H1");
@@ -48,8 +55,6 @@ for (const route of routes) {
     assert.equal(schema.author.url, SITE_URL + "/sobre-a-im", route + ": autoria navegável");
     assert.equal(schema.author.name, article.autor, route + ": autoria preservada");
     assert.equal(schema.citation?.length, article.referencias?.length, route + ": referências estruturadas");
-    assert(html.includes('href="' + correctionMailto(article.slug) + '"'), route + ": canal de correção");
-    assert(html.includes("Sobre esta publicação"), route + ": transparência");
     assert(html.includes('href="' + themePath(getArticleTheme(article)) + '"'), route + ": link para tema");
     assert(getRelatedArticles(getSortedArticles(publicacoes), article).every(a => a.slug !== article.slug && isPublished(a)), route + ": relacionados válidos");
     assert(html.includes("Em resumo"), route + ": resumo");
@@ -73,7 +78,6 @@ const hub = read("insights.html");
 for (const theme of themes) assert(hub.includes('href="' + themePath(theme) + '"'), theme.slug + ": tema rastreável");
 assert.equal((sitemap.match(/<loc>/g) || []).length, 2 + institutionalPages.length + themes.length + publicacoes.filter(isPublished).length);
 assert(read("sobre-a-im.html").includes(`mailto:${CONTACT_EMAIL}`));
-assert(read("politica-de-correcoes.html").includes(correctionMailto()));
 for (const article of publicacoes.slice(0, 18)) assert(hub.includes('href="/insights/' + article.slug + '"'), article.slug + ": link rastreável");
 assert.match(read("404.html"), /name="robots" content="noindex,follow"/);
 assert(!legacyHost.test(read("404.html")), "404 sem domínio antigo");
