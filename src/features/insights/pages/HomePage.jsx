@@ -44,13 +44,6 @@ export default function HomePage() {
     },
   ];
 
-  const differentiators = [
-    "Visão integrada entre estratégia, governança, operações e tecnologia",
-    "Atuação com foco executivo, clareza analítica e implementação prática",
-    "Estruturação de decisões, processos e prioridades com método",
-    "Apoio a empresas em fases de crescimento, reorganização e transformação",
-  ];
-
   const methodology = [
     {
       step: "01",
@@ -86,12 +79,14 @@ export default function HomePage() {
   const highlightedInsights = getSortedArticles(publicacoes).slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-[#f5f7fa] text-slate-900 antialiased">
+    <div className="rd-page">
       <SeoHead config={getHomeSeo()} />
       <SiteHeader navItems={navItems} ctaHref="#contato" />
 
       <main>
-        <Hero differentiators={differentiators} />
+        <Hero />
+        <InsightsPreview articles={highlightedInsights} />
+        <Services services={services} />
         <SectionDivider />
 
         <section id="sobre" className="mx-auto max-w-7xl scroll-mt-28 px-6 py-20 lg:px-8">
@@ -118,7 +113,6 @@ export default function HomePage() {
         </section>
 
         <SectionDivider />
-        <Services services={services} />
         <SectionDivider />
 
         <section id="metodologia" className="mx-auto max-w-7xl scroll-mt-28 px-6 py-20 lg:px-8">
@@ -133,7 +127,7 @@ export default function HomePage() {
             {methodology.map((item) => (
               <div
                 key={item.step}
-                className="rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm"
+                className="rd-method-step"
               >
                 <div className="text-sm font-semibold tracking-[0.2em] text-slate-400">{item.step}</div>
                 <div className="mt-4 text-xl font-semibold text-slate-950">{item.title}</div>
@@ -144,7 +138,7 @@ export default function HomePage() {
         </section>
 
         <SectionDivider />
-        <section className="bg-slate-950 text-white">
+        <section className="rd-positioning text-white">
           <div className="mx-auto grid max-w-7xl gap-10 px-6 py-20 lg:grid-cols-[0.95fr_1.05fr] lg:px-8">
             <div>
               <div className="text-sm font-medium uppercase tracking-[0.22em] text-slate-400">Posicionamento</div>
@@ -157,7 +151,7 @@ export default function HomePage() {
               {positioningItems.map((item) => (
                 <div
                   key={item}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-5 text-sm leading-7 text-slate-200"
+                  className="border-b border-white/20 p-5 text-base leading-7 text-slate-200"
                 >
                   {item}
                 </div>
@@ -167,7 +161,6 @@ export default function HomePage() {
         </section>
 
         <SectionDivider />
-        <InsightsPreview articles={highlightedInsights} />
         <ContactCTA />
       </main>
 
