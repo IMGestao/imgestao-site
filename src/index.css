@@ -635,6 +635,49 @@ img {
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rd-card,.rd-button{transition:none}.rd-card:hover{transform:none}}
 
+/* Abertura institucional panorâmica, exclusiva da página inicial. */
+.rd-panoramic-shell{width:min(100%,2048px);margin-inline:auto;padding-inline:clamp(24px,3.6vw,72px)}
+.rd-header-home,.rd-hero{background:#101f34}
+.rd-header-home .rd-header-inner{min-height:clamp(84px,8.4vw,170px);gap:clamp(18px,2vw,40px)}
+.rd-header-home .rd-brand{gap:clamp(12px,1.2vw,24px);min-width:0}
+.rd-header-home .rd-logo{flex:none;width:clamp(52px,4.7vw,96px);height:clamp(52px,4.7vw,96px)}
+.rd-brand-positioning{color:#a5d3ef;text-transform:uppercase;font-size:clamp(11px,1.15vw,24px);line-height:1.45;letter-spacing:.105em}
+.rd-header-home .rd-nav{font-size:clamp(15px,1.35vw,28px);gap:clamp(20px,2.5vw,52px);white-space:nowrap}
+.rd-header-home .rd-header-cta{font-size:inherit;padding:clamp(12px,1.3vw,26px) clamp(22px,2vw,42px)}
+.rd-hero{border-top:0}
+.rd-hero-intro{padding-top:clamp(28px,2.9vw,60px);padding-bottom:clamp(28px,1.8vw,38px)}
+.rd-hero .rd-hero-intro h1{font-size:clamp(42px,4.7vw,96px);line-height:1.045;font-weight:700;letter-spacing:-.052em;margin:0}
+.rd-hero-intro h1 span{display:block;color:#fff}
+.rd-hero-intro h1 span:last-child{color:#a5d3ef;text-align:right;margin-top:.08em}
+.rd-hero-intro>p{max-width:31em;margin:clamp(26px,2.2vw,46px) auto 0;font-size:clamp(17px,1.59vw,33px);line-height:1.66;color:#d2e0eb}
+.rd-hero-panorama{width:100%;height:clamp(190px,12vw,280px);overflow:hidden;background:#d2e0eb}
+.rd-hero-panorama img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 52%}
+.rd-hero-actions{display:flex;align-items:center;justify-content:center;gap:clamp(24px,2.2vw,46px);padding-block:clamp(17px,1.2vw,26px) clamp(22px,1.9vw,40px)}
+.rd-hero-actions .rd-button{background:#3072a4;font-size:clamp(15px,1.4vw,29px);padding:clamp(14px,1.3vw,27px) clamp(22px,2vw,42px);text-align:center}
+.rd-hero-actions .rd-button:hover{background:#185d91}
+.rd-hero-actions .rd-hero-link{font-size:clamp(15px,1.4vw,29px)}
+.rd-header-home~main [id]{scroll-margin-top:calc(clamp(84px,8.4vw,170px) + 20px)}
+@media(max-width:1100px){
+  .rd-header-home .rd-header-inner{flex-wrap:wrap;gap:12px;padding-block:12px}
+  .rd-header-home .rd-menu-toggle{display:block}
+  .rd-header-home .rd-nav{display:none;width:100%;align-items:stretch;flex-direction:column;gap:6px;padding:10px 0 12px;white-space:normal}
+  .rd-header-home .rd-nav-open{display:flex}
+}
+@media(max-width:860px){
+  .rd-hero .rd-hero-intro h1{font-size:clamp(35px,6.5vw,58px);line-height:1.1}
+  .rd-hero-intro h1 span:last-child{text-align:left;margin-top:.12em}
+  .rd-hero-intro>p{margin-inline:0;max-width:36em}
+  .rd-hero-panorama{height:auto;aspect-ratio:16/9}
+  .rd-hero-actions{flex-wrap:wrap;justify-content:flex-start;padding-block:24px 32px;gap:20px}
+}
+@media(max-width:520px){
+  .rd-header-home .rd-brand{flex:1;gap:9px}
+  .rd-header-home .rd-logo{width:46px;height:46px}
+  .rd-brand-positioning{font-size:clamp(9px,2.6vw,12px);letter-spacing:.075em}
+  .rd-header-home .rd-menu-toggle{padding:9px 11px;flex:none}
+  .rd-hero-actions{align-items:flex-start;flex-direction:column}
+}
+
 
 /* Leitura editorial — hierarquia, contraste e escaneabilidade */
 .rd-reading-shell{max-width:1310px;margin:0 auto;padding:clamp(32px,5vw,72px) clamp(24px,4vw,56px)}

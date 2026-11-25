@@ -12,13 +12,14 @@ const items = [
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
   const { pathname, hash } = useLocation();
+  const isHome = pathname === "/";
   useEffect(() => { if (!hash) window.scrollTo({ top: 0, behavior: "instant" }); }, [pathname, hash]);
   return (
-    <header className="rd-header">
-      <div className="rd-shell rd-header-inner">
+    <header className={`rd-header${isHome ? " rd-header-home" : ""}`}>
+      <div className={`${isHome ? "rd-panoramic-shell" : "rd-shell"} rd-header-inner`}>
         <Link to="/" className="rd-brand" onClick={() => setOpen(false)}>
           <span className="rd-logo"><img src={logo} alt="IM Estratégia e Gestão" /></span>
-          <span>ESTRATÉGIA<br />E GESTÃO</span>
+          {isHome ? <span className="rd-brand-positioning">Consultoria em estratégia,<br />governança e transformação</span> : <span>ESTRATÉGIA<br />E GESTÃO</span>}
         </Link>
         <button className="rd-menu-toggle" type="button" aria-expanded={open} aria-controls="rd-nav" onClick={() => setOpen(!open)}>
           {open ? "Fechar" : "Menu"}

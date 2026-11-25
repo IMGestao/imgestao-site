@@ -98,6 +98,12 @@ for (const route of routes) {
   }
 }
 const hub = read("insights.html");
+const home = read("index.html");
+assert(home.includes('class="rd-header rd-header-home"'), "Home: cabeçalho institucional exclusivo");
+assert(home.includes('Estratégia que orienta.') && home.includes('Gestão que transforma.'), "Home: proposta de valor preservada");
+assert(home.includes('src="/im-hero-panoramico.webp"') && fs.existsSync(path.join("dist", "im-hero-panoramico.webp")), "Home: fotografia panorâmica disponível");
+assert(home.includes('href="#atuacao"') && home.includes('href="#insights"'), "Home: chamadas para ação preservadas");
+assert(!hub.includes('rd-header-home'), "Demais páginas: cabeçalho preservado");
 assert(hub.includes('href="/glossario"') && hub.indexOf('id="insights-glossary"') > hub.indexOf('id="all-insights"'), "Glossário rastreável ao final dos Insights");
 for (const theme of themes) assert(hub.includes('href="' + themePath(theme) + '"'), theme.slug + ": tema rastreável");
 assert.equal((sitemap.match(/<loc>/g) || []).length, 3 + institutionalPages.length + themes.length + publicacoes.filter(isPublished).length);
