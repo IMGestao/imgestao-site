@@ -32,6 +32,8 @@ assert(themes.every(t => t.related.every(slug => slug !== t.slug && getTheme(slu
 const titles = new Set();
 for (const route of routes) {
   const html = read(route === "/" ? "index.html" : route.slice(1) + ".html");
+  assert(html.includes('class="rd-panoramic-shell rd-header-inner"'), route + ": dimensões compartilhadas do cabeçalho");
+  assert(html.includes('class="rd-brand-positioning">Consultoria em transformação,<br/>estratégia e governança'), route + ": posicionamento institucional padronizado");
   for (const removed of removedPages) assert(!html.includes(removed), route + ": sem referência a " + removed);
   assert(!html.includes("Sugerir uma correção"), route + ": sem canal editorial de correções");
   assert(!legacyHost.test(html), route + ": sem domínio antigo no HTML");
@@ -98,6 +100,14 @@ for (const route of routes) {
   }
 }
 const hub = read("insights.html");
+const home = read("index.html");
+assert(home.includes('class="rd-header rd-header-home"'), "Home: identificação do separador no cabeçalho");
+assert(home.includes('Estratégia que orienta.') && home.includes('Gestão que transforma.'), "Home: proposta de valor preservada");
+assert(home.includes('src="/im-hero-conceito.webp"') && fs.existsSync(path.join("dist", "im-hero-conceito.webp")), "Home: arte conceitual disponível");
+assert(home.includes('srcSet="/im-hero-conceito-836.webp 836w, /im-hero-conceito.webp 1672w"') && fs.existsSync(path.join("dist", "im-hero-conceito-836.webp")), "Home: versões responsivas da arte disponíveis");
+assert(home.includes('class="rd-hero-art"') && !home.includes('src="/im-hero-panoramico.webp"'), "Home: arte conceitual substitui a fotografia");
+assert(home.includes('href="#atuacao"') && home.includes('href="#insights"'), "Home: chamadas para ação preservadas");
+assert(!hub.includes('rd-header-home'), "Insights: sem separador exclusivo da Home");
 assert(hub.includes('href="/glossario"') && hub.indexOf('id="insights-glossary"') > hub.indexOf('id="all-insights"'), "Glossário rastreável ao final dos Insights");
 for (const theme of themes) assert(hub.includes('href="' + themePath(theme) + '"'), theme.slug + ": tema rastreável");
 assert.equal((sitemap.match(/<loc>/g) || []).length, 3 + institutionalPages.length + themes.length + publicacoes.filter(isPublished).length);
