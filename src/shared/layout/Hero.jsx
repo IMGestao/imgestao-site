@@ -6,7 +6,7 @@ export default function Hero() {
         <p>Conectamos visão estratégica, estrutura organizacional e disciplina de execução para apoiar empresas em seus desafios de crescimento e transformação.</p>
       </div>
       <div className="rd-hero-panorama">
-        <img src="/im-hero-panoramico.webp" width="1000" height="563" alt="Ponte Estaiada Octávio Frias de Oliveira, Rio Pinheiros e edifícios da região da Berrini, em São Paulo, ao entardecer" fetchPriority="high" loading="eager" />
+        <img src="/im-hero-panoramico.webp" srcSet="/im-hero-panoramico-836.webp 836w, /im-hero-panoramico.webp 1672w" sizes="100vw" width="1672" height="941" alt="Reconstituição em alta definição da Ponte Estaiada Octávio Frias de Oliveira, do Rio Pinheiros e da região da Berrini, em São Paulo, ao entardecer" fetchPriority="high" loading="eager" />
       </div>
       <div className="rd-panoramic-shell rd-hero-actions">
         <a href="#atuacao" className="rd-button">Conheça nossas soluções</a>
