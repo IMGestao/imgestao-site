@@ -677,6 +677,23 @@ img {
   .rd-hero-actions{align-items:flex-start;flex-direction:column}
 }
 
+/* Abertura compacta: prioriza mensagem e navegação em telas pequenas. */
+@media(max-width:767px){
+  .rd-header-home .rd-header-inner{min-height:68px;padding-block:10px}
+  .rd-header-home .rd-menu-toggle{min-height:44px}
+  .rd-hero{display:flex;flex-direction:column}
+  .rd-hero-intro{padding-top:20px;padding-bottom:12px}
+  .rd-hero .rd-hero-intro h1{font-size:clamp(1.75rem,7.25vw,2.125rem);line-height:1.12}
+  .rd-hero-intro h1 span:last-child{margin-top:.12em}
+  .rd-hero-intro>p{font-size:1rem;line-height:1.48;margin-top:14px}
+  .rd-hero-actions{order:1;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:8px 16px;padding-block:8px 18px}
+  .rd-hero-actions .rd-button{min-height:44px;padding:10px 14px;font-size:.875rem}
+  .rd-hero-actions .rd-hero-link{display:inline-flex;align-items:center;min-height:44px;font-size:.875rem;padding-block:0}
+  .rd-hero-image-shell{order:2;width:100%}
+  .rd-hero-panorama{aspect-ratio:21/9}
+  .rd-hero-panorama img{object-position:center 32%}
+}
+
 
 /* Leitura editorial — hierarquia, contraste e escaneabilidade */
 .rd-reading-shell{max-width:1310px;margin:0 auto;padding:clamp(32px,5vw,72px) clamp(24px,4vw,56px)}
