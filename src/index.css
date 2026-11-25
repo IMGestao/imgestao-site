@@ -730,8 +730,6 @@ img {
 .rd-summary li{font-size:17px;line-height:1.65;margin:7px 0}
 .rd-reading-body{font-family:Inter,system-ui,sans-serif;font-size:clamp(17px,1.5vw,19px);line-height:1.75;overflow-wrap:anywhere;text-align:left}
 .rd-reading-body p{margin:0 0 1.15em;max-width:72ch}
-/* Preserve o endereço de contato como uma unidade, com quebra apenas em telas extremamente estreitas. */
-.rd-reading-body a[href^="mailto:"]{display:inline-block;max-width:100%;overflow-wrap:anywhere;vertical-align:baseline}
 .rd-reading-body .rd-reading-intro{font-size:clamp(19px,2vw,23px);line-height:1.65;color:#243e55}
 .rd-reading-body h2{font-family:Georgia,serif;font-size:clamp(27px,3vw,35px);font-weight:500;color:#0b2038;line-height:1.22;letter-spacing:-.025em;border-top:1px solid #d6e0e7;margin:1.7em 0 .65em;padding-top:.8em;scroll-margin-top:calc(var(--rd-header-height) + 24px)}
 .rd-reading-body h3{font-size:clamp(19px,2vw,23px);line-height:1.35;font-weight:700;color:#174b78;margin:1.35em 0 .5em}
