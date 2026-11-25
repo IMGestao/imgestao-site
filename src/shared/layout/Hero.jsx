@@ -12,7 +12,7 @@ export default function Hero() {
         </div>
         <div className="rd-hero-image-shell">
           <div className="rd-hero-panorama">
-            <img src="/im-hero-panoramico.webp" srcSet="/im-hero-panoramico-836.webp 836w, /im-hero-panoramico.webp 1536w" sizes="(max-width: 767px) 180px, (max-width: 1391px) 23vw, 320px" width="1536" height="1024" alt="Reconstituição da Ponte Estaiada Octávio Frias de Oliveira, Rio Pinheiros e edifícios da Berrini, sob céu azul com nuvens, em São Paulo" fetchPriority="high" loading="eager" />
+            <img src="/im-hero-panoramico.webp" srcSet="/im-hero-panoramico-836.webp 836w, /im-hero-panoramico.webp 1536w" sizes="(max-width: 860px) calc(100vw - 48px), (max-width: 2048px) 44vw, 900px" width="1536" height="1024" alt="Reconstituição da Ponte Estaiada Octávio Frias de Oliveira, Rio Pinheiros e edifícios da Berrini, sob céu azul com nuvens, em São Paulo" fetchPriority="high" loading="eager" />
           </div>
         </div>
       </div>
