@@ -102,7 +102,7 @@ const home = read("index.html");
 assert(home.includes('class="rd-header rd-header-home"'), "Home: cabeçalho institucional exclusivo");
 assert(home.includes('Estratégia que orienta.') && home.includes('Gestão que transforma.'), "Home: proposta de valor preservada");
 assert(home.includes('src="/im-hero-panoramico.webp"') && fs.existsSync(path.join("dist", "im-hero-panoramico.webp")), "Home: fotografia panorâmica disponível");
-assert(home.includes('srcSet="/im-hero-panoramico-836.webp 836w, /im-hero-panoramico.webp 1672w"') && fs.existsSync(path.join("dist", "im-hero-panoramico-836.webp")), "Home: versões responsivas da fotografia panorâmica disponíveis");
+assert(home.includes('srcSet="/im-hero-panoramico-836.webp 836w, /im-hero-panoramico.webp 1536w"') && fs.existsSync(path.join("dist", "im-hero-panoramico-836.webp")), "Home: versões responsivas da fotografia panorâmica disponíveis");
 assert(home.includes('href="#atuacao"') && home.includes('href="#insights"'), "Home: chamadas para ação preservadas");
 assert(!hub.includes('rd-header-home'), "Demais páginas: cabeçalho preservado");
 assert(hub.includes('href="/glossario"') && hub.indexOf('id="insights-glossary"') > hub.indexOf('id="all-insights"'), "Glossário rastreável ao final dos Insights");
