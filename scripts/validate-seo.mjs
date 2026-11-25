@@ -32,6 +32,7 @@ assert(themes.every(t => t.related.every(slug => slug !== t.slug && getTheme(slu
 const titles = new Set();
 for (const route of routes) {
   const html = read(route === "/" ? "index.html" : route.slice(1) + ".html");
+  assert(html.includes('class="rd-brand-positioning">Consultoria em transformação,<br/>estratégia e governança'), route + ": posicionamento institucional padronizado");
   for (const removed of removedPages) assert(!html.includes(removed), route + ": sem referência a " + removed);
   assert(!html.includes("Sugerir uma correção"), route + ": sem canal editorial de correções");
   assert(!legacyHost.test(html), route + ": sem domínio antigo no HTML");
@@ -103,7 +104,7 @@ assert(home.includes('class="rd-header rd-header-home"'), "Home: cabeçalho inst
 assert(home.includes('Estratégia que orienta.') && home.includes('Gestão que transforma.'), "Home: proposta de valor preservada");
 assert(home.includes('src="/im-hero-panoramico.webp"') && fs.existsSync(path.join("dist", "im-hero-panoramico.webp")), "Home: fotografia panorâmica disponível");
 assert(home.includes('srcSet="/im-hero-panoramico-836.webp 836w, /im-hero-panoramico.webp 1536w"') && fs.existsSync(path.join("dist", "im-hero-panoramico-836.webp")), "Home: versões responsivas da fotografia panorâmica disponíveis");
-assert(home.includes('class="rd-article-visual rd-hero-panorama"'), "Home: imagem usa o mesmo componente visual responsivo dos artigos");
+assert(home.includes('class="rd-hero-panorama"'), "Home: imagem institucional responsiva");
 assert(home.includes('href="#atuacao"') && home.includes('href="#insights"'), "Home: chamadas para ação preservadas");
 assert(!hub.includes('rd-header-home'), "Demais páginas: cabeçalho preservado");
 assert(hub.includes('href="/glossario"') && hub.indexOf('id="insights-glossary"') > hub.indexOf('id="all-insights"'), "Glossário rastreável ao final dos Insights");

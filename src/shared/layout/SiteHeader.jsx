@@ -19,7 +19,7 @@ export default function SiteHeader() {
       <div className={`${isHome ? "rd-panoramic-shell" : "rd-shell"} rd-header-inner`}>
         <Link to="/" className="rd-brand" onClick={() => setOpen(false)}>
           <span className="rd-logo"><img src={logo} alt="IM Estratégia e Gestão" /></span>
-          {isHome ? <span className="rd-brand-positioning">Consultoria em estratégia,<br />governança e transformação</span> : <span>ESTRATÉGIA<br />E GESTÃO</span>}
+          <span className="rd-brand-positioning">Consultoria em transformação,<br />estratégia e governança</span>
         </Link>
         <button className="rd-menu-toggle" type="button" aria-expanded={open} aria-controls="rd-nav" onClick={() => setOpen(!open)}>
           {open ? "Fechar" : "Menu"}
